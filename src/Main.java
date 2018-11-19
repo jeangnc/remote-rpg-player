@@ -1,11 +1,28 @@
-
 public class Main {
-
     public static void main(String[] args) {
-        AtorNetGames rede = new AtorNetGames();
+        int nJogadores = 2;
+        int idJogador = Integer.parseInt(args[0]);
 
-        rede.conectar("localhost", "Jean");
+        NetGamesProxy proxy = new NetGamesProxy(nJogadores, idJogador, "Jogador " + idJogador);
 
-        System.out.println("Hello World!");
+        Rede r = new Rede(proxy);
+        r.escutarObjetos(Tabuleiro.class, System.out::println);
+
+        while (true) {
+            try {
+                System.out.println("Tentando enviar jogada");
+                r.enviarObjeto(new Tabuleiro());
+                System.out.println("Consegui, aguardando");
+
+            } catch (Exception e) {
+                System.out.println("Não consegui, aguardando");
+            }
+
+            try {
+                Thread.sleep (2000);
+            } catch (InterruptedException ex) {
+                System.out.println("Thread interrompida");
+            }
+        }
     }
 }
