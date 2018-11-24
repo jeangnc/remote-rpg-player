@@ -20,10 +20,10 @@ abstract class Janela {
     void abrir() {
         frame = new JFrame("Old Dragon");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setContentPane(renderizarConteudo());
-        frame.pack();
         frame.setSize(400, 300);
         frame.setLocationRelativeTo(null);
+        frame.setContentPane(renderizar());
+        frame.pack();
         frame.setVisible(true);
     }
 
@@ -33,9 +33,9 @@ abstract class Janela {
     }
 
     void recarregar() {
-        frame.setContentPane(renderizarConteudo());
+        frame.setContentPane(renderizar());
         frame.setVisible(true);
     }
 
-    abstract JPanel renderizarConteudo();
+    abstract JPanel renderizar();
 }

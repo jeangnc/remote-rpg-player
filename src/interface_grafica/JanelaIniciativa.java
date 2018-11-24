@@ -4,7 +4,7 @@ import javax.swing.*;
 
 class JanelaIniciativa extends Janela {
     @Override
-    JPanel renderizarConteudo() {
+    JPanel renderizar() {
         return null;
     }
 }
