@@ -28,7 +28,15 @@ public class Mapa {
         }
     }
 
-    public Posicao[][] retornarPosicoes() {
-        return posicoes;
+    public Posicao retornarPosicao(int x, int y) {
+        return posicoes[x][y];
+    }
+
+    public int retornarLargura() {
+        return largura;
+    }
+
+    public int retornarAltura() {
+        return altura;
     }
 }
