@@ -28,6 +28,7 @@ public class Partida {
      * @param c
      */
     public void escutarEventos(Consumer<EventoPartida> c) {
+        ouvintes.add(c);
     }
 
     /**
@@ -140,8 +141,9 @@ public class Partida {
      * @param e
      */
     private void publicarEvento(EventoPartida e) {
-        // TODO - implement Partida.publicarEvento
-        throw new UnsupportedOperationException();
+        for (Consumer<EventoPartida> ouvinte : ouvintes) {
+            ouvinte.accept(e);
+        }
     }
 
     private void proximoTurno() {
