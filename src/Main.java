@@ -1,42 +1,23 @@
-import modelos.eventos.SolicitarIniciativa;
+import comunicacao.Rede;
+import interface_grafica.Controlador;
+import modelos.Partida;
+
+import javax.swing.*;
 
 public class Main {
-    public static void main(String[] args) {
-
+    public static void main(String[] args)
+            throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException
+    {
         int nJogadores = args.length == 0 ? 1 : 2;
-        int idJogador = args.length > 0 ? Integer.parseInt(args[0]) : 1;
 
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
+        Rede rede = new Rede(nJogadores);
+        Partida partida = new Partida();
+        Controlador controlador = new Controlador(partida);
 
-//        Rede r = new Rede(nJogadores);
-//
-//        try {
-//            r.conectar("localhost", idJogador, "Jean " + idJogador);
-//            r.escutarEventos(EventoPartida.class, (e) -> {
-//                SolicitarIniciativa i  = (SolicitarIniciativa) e;
-//
-//                System.out.println("Iniciativa solicitada n: " + i.n);
-//            });
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//
-//        while (true) {
-//            try {
-//                System.out.println("Tentando enviar jogada");
-//                r.transmitirEvento(new SolicitarIniciativa(2));
-//                System.out.println("Consegui, aguardando");
-//
-//            } catch (Exception e) {
-//                System.out.println("Não consegui, aguardando");
-//            }
-//
-//            try {
-//                Thread.sleep (2000);
-//            } catch (InterruptedException ex) {
-//                System.out.println("Thread interrompida");
-//            }
-//        }
+        new Barramento(partida, controlador, rede);
+
+        controlador.iniciar();
     }
 }
