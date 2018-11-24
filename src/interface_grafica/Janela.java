@@ -27,6 +27,11 @@ abstract class Janela {
         frame.setVisible(true);
     }
 
+    void redimensionar(int largura, int altura) {
+        frame.setSize(largura, altura);
+        frame.setLocationRelativeTo(null);
+    }
+
     void recarregar() {
         frame.setContentPane(renderizarConteudo());
         frame.setVisible(true);
