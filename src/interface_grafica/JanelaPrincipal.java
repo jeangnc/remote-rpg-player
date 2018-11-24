@@ -1,94 +1,35 @@
 package interface_grafica;
 
-import interface_grafica.eventos.EventoInterface;
+import interface_grafica.eventos.ConexaoSolicitada;
 import modelos.Partida;
-import modelos.Personagem;
 
-import java.util.ArrayList;
-import java.util.function.Consumer;
+import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-public class JanelaPrincipal extends Janela {
+class JanelaPrincipal extends Janela {
+    private Partida partida;
 
-    private ArrayList<Consumer<EventoInterface>> ouvintes;
-    private VisualizacaoMapa mapa;
-
-    /**
-     *
-     * @param p
-     */
-    public JanelaPrincipal(Partida p) {
-        // TODO - implement JanelaPrincipal.JanelaPrincipal
-        throw new UnsupportedOperationException();
+    JanelaPrincipal(Partida partida) {
+        this.partida = partida;
     }
 
-    /**
-     *
-     * @param c
-     */
-    public void escutarEventos(Consumer<EventoInterface> c) {
-        // TODO - implement JanelaPrincipal.escutarEventos
-        throw new UnsupportedOperationException();
-    }
+    @Override
+    JPanel renderizarConteudo() {
+        if (partida.retornarJogador() == null) {
+            FormularioConexao f = new FormularioConexao();
 
-    public void solicitarIniciativas() {
-        // TODO - implement JanelaPrincipal.solicitarIniciativas
-        throw new UnsupportedOperationException();
-    }
+            f.escutarEventosConectar(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    emitirEvento(new ConexaoSolicitada(Integer.parseInt(f.retornarId()), f.retornarNome()));
+                }
+            });
 
-    public void finalizarJogada() {
-        // TODO - implement JanelaPrincipal.finalizarJogada
-        throw new UnsupportedOperationException();
-    }
+            return f.renderizar();
+        }
 
-    /**
-     *
-     * @param vencedor
-     */
-    public void exibirVencedor(String vencedor) {
-        // TODO - implement JanelaPrincipal.exibirVencedor
-        throw new UnsupportedOperationException();
+        VisualizacaoMapa m = new VisualizacaoMapa(partida.retornarMapa());
+        return m.renderizar();
     }
-
-    public void recarregar() {
-        // TODO - implement JanelaPrincipal.recarregar
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     *
-     * @param p
-     */
-    private void curar(Personagem p) {
-        // TODO - implement JanelaPrincipal.curar
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     *
-     * @param p
-     */
-    private void atacar(Personagem p) {
-        // TODO - implement JanelaPrincipal.atacar
-        throw new UnsupportedOperationException();
-    }
-
-    private void criarPersonagem() {
-        // TODO - implement JanelaPrincipal.criarPersonagem
-        throw new UnsupportedOperationException();
-    }
-
-    private void desconectar() {
-        // TODO - implement JanelaPrincipal.desconectar
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     *
-     * @param e
-     */
-    private void publicarEvento(EventoInterface e) {
-        // TODO - implement JanelaPrincipal.publicarEvento
-        throw new UnsupportedOperationException();
-    }
-
 }
