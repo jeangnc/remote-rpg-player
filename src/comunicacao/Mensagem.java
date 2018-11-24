@@ -10,7 +10,7 @@ class Mensagem implements Jogada {
         evento = e;
     }
 
-    Evento recuperarEvento() {
+    Evento retornarEvento() {
         return evento;
     }
 }

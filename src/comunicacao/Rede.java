@@ -33,7 +33,7 @@ public class Rede {
     public void escutarEventos(Class<?> tipo, Consumer<Object> c) {
         netGames.ouvirJogadas((jogada) -> {
             Mensagem mensagem = (Mensagem) jogada;
-            Evento evento = mensagem.recuperarEvento();
+            Evento evento = mensagem.retornarEvento();
 
             if (tipo.isInstance(evento)) {
                 c.accept(tipo.cast(evento));
