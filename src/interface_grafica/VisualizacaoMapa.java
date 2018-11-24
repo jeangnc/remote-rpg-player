@@ -4,7 +4,7 @@ import modelos.Mapa;
 
 import javax.swing.*;
 
-public class VisualizacaoMapa extends JPanel {
+class VisualizacaoMapa extends JPanel {
 
     private Mapa mapa;
 
@@ -12,14 +12,15 @@ public class VisualizacaoMapa extends JPanel {
      *
      * @param m
      */
-    public VisualizacaoMapa(Mapa m) {
-        // TODO - implement VisualizacaoMapa.VisualizacaoMapa
-        throw new UnsupportedOperationException();
+    VisualizacaoMapa(Mapa m) {
+        mapa = m;
     }
 
-    public void recarregar() {
-        // TODO - implement VisualizacaoMapa.recarregar
-        throw new UnsupportedOperationException();
+    JPanel renderizar() {
+        JPanel p = new JPanel();
+        p.add(new JLabel("Teste"));
+
+        return p;
     }
 
 }
