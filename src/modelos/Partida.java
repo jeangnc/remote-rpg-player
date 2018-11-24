@@ -14,11 +14,13 @@ public class Partida {
     private ArrayList<Turno> turnosPassados = new ArrayList<>();
     private Turno turnoAtual;
     private Iniciativa[] iniciativasRecebidas;
-    private ArrayList<Consumer<EventoPartida>> ouvintes;
-    private boolean aguardandoIniciativas;
-    private boolean iniciada;
+    private ArrayList<Consumer<EventoPartida>> ouvintes = new ArrayList<>();
+    private boolean aguardandoIniciativas = false;
+    private boolean iniciada = false;
 
     public Partida() {
+        // TODO improve
+        mapa = new Mapa(20, 20);
     }
 
     /**

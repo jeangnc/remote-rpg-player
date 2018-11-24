@@ -7,6 +7,11 @@ public class Posicao {
     private int coordenada_x;
     private int coordenada_y;
 
+    Posicao(int x, int y) {
+        coordenada_x = x;
+        coordenada_y = y;
+    }
+
     public boolean verificarDisponibilidade() {
         // TODO - implement Posicao.verificarDisponibilidade
         throw new UnsupportedOperationException();

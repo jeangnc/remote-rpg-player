@@ -2,19 +2,33 @@ package modelos;
 
 public class Mapa {
 
-    private Partida partida;
-    private Posicao[] posicoes;
+    private Posicao[][] posicoes;
     private int largura;
     private int altura;
 
     /**
      *
-     * @param largura
-     * @param altura
+     * @param l
+     * @param a
      */
-    public Mapa(int largura, int altura) {
-        // TODO - implement Mapa.Mapa
-        throw new UnsupportedOperationException();
+    Mapa(int l, int a) {
+        largura = l;
+        altura = a;
+
+        construirPosicoes();
     }
 
+    private void construirPosicoes() {
+        posicoes = new Posicao[largura][altura];
+
+        for(int i = 0; i < largura; i++) {
+            for(int j = 0; j < altura; j++) {
+                posicoes[i][j] = new Posicao(i, j);
+            }
+        }
+    }
+
+    public Posicao[][] retornarPosicoes() {
+        return posicoes;
+    }
 }
