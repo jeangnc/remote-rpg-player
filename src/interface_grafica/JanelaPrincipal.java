@@ -15,7 +15,9 @@ class JanelaPrincipal extends Janela {
     }
 
     @Override
-    JPanel renderizarConteudo() {
+    JPanel renderizar() {
+        redimensionar(300, 100);
+
         if (partida.retornarJogador() == null) {
             FormularioConexao f = new FormularioConexao();
 
@@ -28,6 +30,8 @@ class JanelaPrincipal extends Janela {
 
             return f.renderizar();
         }
+
+        redimensionar(800, 600);
 
         VisualizacaoMapa m = new VisualizacaoMapa(partida.retornarMapa());
         return m.renderizar();
