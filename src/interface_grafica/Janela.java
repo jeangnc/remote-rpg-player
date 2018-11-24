@@ -1,6 +1,36 @@
 package interface_grafica;
 
-import javax.swing.*;
+import interface_grafica.eventos.EventoInterface;
 
-public abstract class Janela extends JFrame {
+import javax.swing.*;
+import java.util.function.Consumer;
+
+abstract class Janela {
+    private JFrame frame;
+    private Consumer<EventoInterface> ouvinte;
+
+    void escutarEventos(Consumer<EventoInterface> o) {
+        ouvinte = o;
+    }
+
+    void emitirEvento(EventoInterface e) {
+        ouvinte.accept(e);
+    }
+
+    void abrir() {
+        frame = new JFrame("Janela de merda");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setContentPane(renderizarConteudo());
+        frame.pack();
+        frame.setSize(400, 300);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+
+    void recarregar() {
+        frame.setContentPane(renderizarConteudo());
+        frame.setVisible(true);
+    }
+
+    abstract JPanel renderizarConteudo();
 }
