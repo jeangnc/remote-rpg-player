@@ -18,7 +18,7 @@ abstract class Janela {
     }
 
     void abrir() {
-        frame = new JFrame("Janela de merda");
+        frame = new JFrame("Old Dragon");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setContentPane(renderizarConteudo());
         frame.pack();
