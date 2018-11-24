@@ -7,19 +7,18 @@ import java.util.function.Consumer;
 
 public class Partida {
 
-    private Mapa tabuleiro;
-    private Jogador[] jogadores;
-    private Personagem[] personagens;
-    private Turno[] turnos;
+    private Mapa mapa;
+    private Jogador jogador;
+    private ArrayList<Jogador> jogadores = new ArrayList<>();
+    private ArrayList<Personagem> personagens = new ArrayList<>();
+    private ArrayList<Turno> turnosPassados = new ArrayList<>();
     private Turno turnoAtual;
-    private ArrayList<Consumer<EventoPartida>> ouvintes;
     private Iniciativa[] iniciativasRecebidas;
+    private ArrayList<Consumer<EventoPartida>> ouvintes;
     private boolean aguardandoIniciativas;
     private boolean iniciada;
 
     public Partida() {
-        // TODO - implement Partida.Partida
-        throw new UnsupportedOperationException();
     }
 
     /**
@@ -27,8 +26,30 @@ public class Partida {
      * @param c
      */
     public void escutarEventos(Consumer<EventoPartida> c) {
-        // TODO - implement Partida.escutarEventos
-        throw new UnsupportedOperationException();
+    }
+
+    /**
+     *
+     * @param id
+     * @param nome
+     */
+    public void conectadoComo(int id, String nome) {
+        Jogador j = new Jogador(id, nome);
+
+        jogador = j;
+        jogadores.add(j);
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Jogador retornarJogador() {
+        return jogador;
+    }
+
+    public Mapa retornarMapa() {
+        return mapa;
     }
 
     /**
