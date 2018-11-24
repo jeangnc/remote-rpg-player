@@ -1,4 +1,10 @@
 package interface_grafica;
 
-public class JanelaCriacaoPersonagem extends Janela {
+import javax.swing.*;
+
+class JanelaCriacaoPersonagem extends Janela {
+    @Override
+    JPanel renderizarConteudo() {
+        return null;
+    }
 }

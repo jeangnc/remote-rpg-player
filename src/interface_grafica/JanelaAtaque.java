@@ -1,4 +1,10 @@
 package interface_grafica;
 
-public class JanelaAtaque extends Janela {
+import javax.swing.*;
+
+class JanelaAtaque extends Janela {
+    @Override
+    JPanel renderizarConteudo() {
+        return null;
+    }
 }
