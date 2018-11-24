@@ -1,7 +1,6 @@
 package comunicacao;
 
 import br.ufsc.inf.leobr.cliente.Jogada;
-import br.ufsc.inf.leobr.cliente.OuvidorProxy;
 import br.ufsc.inf.leobr.cliente.Proxy;
 import br.ufsc.inf.leobr.cliente.exception.ArquivoMultiplayerException;
 import br.ufsc.inf.leobr.cliente.exception.JahConectadoException;
@@ -11,18 +10,19 @@ import br.ufsc.inf.leobr.cliente.exception.NaoPossivelConectarException;
 
 import java.util.function.Consumer;
 
-public class NetGamesProxy implements OuvidorProxy {
+class NetGamesProxy  {
     private boolean conectado = false;
     private int qtdeJogadores = 0;
 
     private Proxy proxy;
-    private Consumer<Jogada> consumidor;
+    private Consumer<Jogada> consumidorJogadas;
 
     NetGamesProxy(int q) {
         qtdeJogadores = q;
 
         proxy = Proxy.getInstance();
-        proxy.addOuvinte(this);
+        proxy.addOuvinte(new NetGamesOuvinte(this));
+
     }
 
     void conectar(String hostServidor, int idJogador, String nomeJogador)
@@ -40,7 +40,11 @@ public class NetGamesProxy implements OuvidorProxy {
     }
 
     void ouvirJogadas(Consumer<Jogada> c) {
-        consumidor = c;
+        consumidorJogadas = c;
+    }
+
+    void notificarJogadaRecebida(Jogada j) {
+        consumidorJogadas.accept(j);
     }
 
     void enviarJogada(Jogada j) throws NaoJogandoException {
@@ -57,37 +61,6 @@ public class NetGamesProxy implements OuvidorProxy {
         } catch (NaoConectadoException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void receberJogada(Jogada j) {
-        consumidor.accept(j);
-    }
-
-    @Override
-    public void receberMensagem(String msg) {
-        System.out.println("Mensagem recebida: " + msg);
-    }
-
-    @Override
-    public void iniciarNovaPartida(Integer posicao) {
-        String text = String.format("Jogador %s está pronto. %d de %d", posicao, (proxy.obterNomeAdversarios().size() + 1), qtdeJogadores);
-        System.out.println(text);
-    }
-
-    @Override
-    public void finalizarPartidaComErro(String message) {
-        System.out.println("Finalizado com erro: " + message);
-    }
-
-    @Override
-    public void tratarPartidaNaoIniciada(String message) {
-        System.out.println("Partida ainda não foi iniciada");
-    }
-
-    @Override
-    public void tratarConexaoPerdida() {
-        System.out.println("A conexão com o servidor foi perdida!");
     }
 
     private boolean verificarTodosProntos() {
