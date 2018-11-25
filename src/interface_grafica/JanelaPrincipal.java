@@ -48,4 +48,22 @@ class JanelaPrincipal extends Janela {
 
         return m.renderizar();
     }
+
+    JMenuBar renderizarMenu () {
+        JMenuBar menuBar;
+        JMenu menu;
+        JMenuItem menuItem;
+
+        menu = new JMenu("A Menu");
+        menu.getAccessibleContext().setAccessibleDescription("The only menu in this program that has menu items");
+
+        menuItem = new JMenuItem("A text-only menu item", KeyEvent.VK_A);
+        menuItem.getAccessibleContext().setAccessibleDescription("This doesn't really do anything");
+        menu.add(menuItem);
+
+        menuBar = new JMenuBar();
+        menuBar.add(menu);
+
+        return menuBar;
+    }
 }

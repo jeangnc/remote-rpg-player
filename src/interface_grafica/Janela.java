@@ -24,6 +24,12 @@ abstract class Janela {
         frame.setLocationRelativeTo(null);
         frame.setContentPane(renderizar());
         frame.pack();
+
+        JMenuBar barraMenu = renderizarMenu();
+        if (barraMenu != null) {
+            frame.setJMenuBar(barraMenu);
+        }
+
         frame.setVisible(true);
     }
 
@@ -38,4 +44,5 @@ abstract class Janela {
     }
 
     abstract JPanel renderizar();
+    abstract JMenuBar renderizarMenu();
 }
