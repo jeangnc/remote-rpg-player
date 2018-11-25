@@ -12,7 +12,7 @@ public class NotificarErro extends EventoPartida {
         msg = m;
     }
 
-    public String getMsg() {
+    public String retornaMsg() {
         return msg;
     }
 }

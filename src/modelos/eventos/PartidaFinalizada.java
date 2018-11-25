@@ -12,7 +12,7 @@ public class PartidaFinalizada extends EventoPartida {
         vencedor = v;
     }
 
-    public String getVencedor() {
+    public String retornaVencedor() {
         return vencedor;
     }
 }

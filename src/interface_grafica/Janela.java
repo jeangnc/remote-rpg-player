@@ -21,7 +21,7 @@ abstract class Janela {
 
     void abrir() {
         frame = new JFrame(titulo);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         popularConteudo();
         frame.pack();
         frame.setLocationRelativeTo(null);

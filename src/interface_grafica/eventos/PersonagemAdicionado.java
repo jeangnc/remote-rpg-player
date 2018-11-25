@@ -11,15 +11,15 @@ public class PersonagemAdicionado extends EventoInterface {
         inimigo = i;
     }
 
-    public String getNome() {
+    public String retornaNome() {
         return nome;
     }
 
-    public int getHpMaximo() {
+    public int retornaHpMaximo() {
         return hpMaximo;
     }
 
-    public boolean isInimigo() {
+    public boolean retornaInimigo() {
         return inimigo;
     }
 }

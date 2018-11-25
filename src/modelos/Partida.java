@@ -45,18 +45,6 @@ public class Partida {
 
     /**
      *
-     * @return
-     */
-    public Jogador retornarJogador() {
-        return jogador;
-    }
-
-    public Mapa retornarMapa() {
-        return mapa;
-    }
-
-    /**
-     *
      * @param j
      */
     public void adicionarJogador(Jogador j) {
@@ -66,11 +54,15 @@ public class Partida {
 
     /**
      *
-     * @param p
+     * @param nome
+     * @param hpMaximo
+     * @param inimigo
      */
-    public void adicionarPersonagem(Personagem p) {
-        // TODO - implement Partida.adicionarPersonagem
-        throw new UnsupportedOperationException();
+    public void adicionarPersonagem(String nome, int hpMaximo, boolean inimigo) {
+        Personagem p = new Personagem(nome, hpMaximo, inimigo);
+
+        personagens.add(p);
+        mapa.retornarPosicao(0, 0).definirOcupante(p);
     }
 
     public void iniciar() {
@@ -132,8 +124,23 @@ public class Partida {
     }
 
     public boolean verificarAguardandoIniciativas() {
-        // TODO - implement Partida.verificarAguardandoIniciativas
-        throw new UnsupportedOperationException();
+        return aguardandoIniciativas;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Jogador retornarJogador() {
+        return jogador;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Mapa retornarMapa() {
+        return mapa;
     }
 
     /**

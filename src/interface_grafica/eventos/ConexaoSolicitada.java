@@ -9,11 +9,11 @@ public class ConexaoSolicitada extends EventoInterface {
         nome = n;
     }
 
-    public int getId() {
+    public int retornaId() {
         return id;
     }
 
-    public String getNome() {
+    public String retornaNome() {
         return nome;
     }
 }

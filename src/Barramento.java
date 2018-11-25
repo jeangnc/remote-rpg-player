@@ -1,11 +1,9 @@
-import br.ufsc.inf.leobr.cliente.exception.ArquivoMultiplayerException;
-import br.ufsc.inf.leobr.cliente.exception.JahConectadoException;
-import br.ufsc.inf.leobr.cliente.exception.NaoConectadoException;
-import br.ufsc.inf.leobr.cliente.exception.NaoPossivelConectarException;
+import br.ufsc.inf.leobr.cliente.exception.*;
 import comunicacao.Rede;
 import interface_grafica.Controlador;
 import interface_grafica.eventos.ConexaoSolicitada;
 import interface_grafica.eventos.EventoInterface;
+import interface_grafica.eventos.PersonagemAdicionado;
 import modelos.Partida;
 import modelos.eventos.EventoPartida;
 
@@ -50,8 +48,8 @@ class Barramento {
             ConexaoSolicitada e = (ConexaoSolicitada) eventoInterface;
 
             try {
-                rede.conectar("localhost", e.getId(), e.getNome());
-                partida.conectadoComo(e.getId(), e.getNome());
+                rede.conectar("localhost", e.retornaId(), e.retornaNome());
+                partida.conectadoComo(e.retornaId(), e.retornaNome());
                 controlador.recarregar();
 
             } catch (NaoPossivelConectarException | ArquivoMultiplayerException | JahConectadoException | NaoConectadoException e1) {
@@ -59,7 +57,18 @@ class Barramento {
             }
         }
 
-//        rede.transmitirEvento(e);
+        if (eventoInterface instanceof PersonagemAdicionado) {
+            PersonagemAdicionado e = (PersonagemAdicionado) eventoInterface;
+
+            try {
+                partida.adicionarPersonagem(e.retornaNome(), e.retornaHpMaximo(), e.retornaInimigo());
+                controlador.recarregar();
+                rede.transmitirEvento(eventoInterface);
+
+            } catch (NaoJogandoException e1) {
+                e1.printStackTrace();
+            }
+        }
     }
 
     /**
