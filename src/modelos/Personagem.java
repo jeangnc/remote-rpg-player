@@ -14,20 +14,29 @@ public class Personagem {
 
     /**
      *
-     * @param nome
-     * @param hpMaximo
-     * @param inimigo
+     * @param n
+     * @param h
+     * @param i
      */
-    public Personagem(String nome, int hpMaximo, boolean inimigo) {
-        // TODO - implement Personagem.Personagem
-        throw new UnsupportedOperationException();
+    public Personagem(String n, int h, boolean i) {
+        nome = n;
+        hpMaximo = h;
+        inimigo = i;
+    }
+
+    public String retornaNome() {
+        return nome;
+    }
+
+    public boolean retornaInimigo() {
+        return inimigo;
     }
 
     /**
      *
      * @param hp
      */
-    public void aumentarHp(int hp) {
+    void aumentarHp(int hp) {
         // TODO - implement Personagem.aumentarHp
         throw new UnsupportedOperationException();
     }
@@ -36,7 +45,7 @@ public class Personagem {
      *
      * @param hp
      */
-    public void reduzirHp(int hp) {
+    void reduzirHp(int hp) {
         // TODO - implement Personagem.reduzirHp
         throw new UnsupportedOperationException();
     }
@@ -45,7 +54,7 @@ public class Personagem {
      *
      * @param destino
      */
-    public void mover(Posicao destino) {
+    void mover(Posicao destino) {
         // TODO - implement Personagem.mover
         throw new UnsupportedOperationException();
     }
@@ -54,7 +63,7 @@ public class Personagem {
      *
      * @param dono
      */
-    public boolean confirmarDono(Jogador dono) {
+    boolean confirmarDono(Jogador dono) {
         // TODO - implement Personagem.confirmarDono
         throw new UnsupportedOperationException();
     }

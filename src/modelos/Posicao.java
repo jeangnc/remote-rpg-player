@@ -2,8 +2,7 @@ package modelos;
 
 public class Posicao {
 
-    private Personagem ocupante;
-    private Mapa tabuleiro;
+    private Personagem ocupante = null;
     private int coordenada_x;
     private int coordenada_y;
 
@@ -12,23 +11,31 @@ public class Posicao {
         coordenada_y = y;
     }
 
-    public boolean verificarDisponibilidade() {
-        // TODO - implement Posicao.verificarDisponibilidade
-        throw new UnsupportedOperationException();
+    /**
+     *
+     * @return
+     */
+    public boolean retornaDisponivel() {
+        return ocupante == null;
     }
 
     /**
      *
-     * @param ocupante
+     * @return
      */
-    public void definirOcupante(Personagem ocupante) {
-        // TODO - implement Posicao.definirOcupante
-        throw new UnsupportedOperationException();
+    public Personagem retornaOcupante() {
+        return ocupante;
     }
 
-    public void removerOcupante() {
-        // TODO - implement Posicao.removerOcupante
-        throw new UnsupportedOperationException();
+    /**
+     *
+     * @param p
+     */
+    void definirOcupante(Personagem p) {
+        ocupante = p;
     }
 
+    void removerOcupante() {
+        ocupante = null;
+    }
 }

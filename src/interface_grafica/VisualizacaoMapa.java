@@ -1,12 +1,12 @@
 package interface_grafica;
 
 import modelos.Mapa;
+import modelos.Personagem;
+import modelos.Posicao;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -30,10 +30,17 @@ class VisualizacaoMapa extends JPanel {
 
         for (int i = 0; i < mapa.retornarLargura(); i++) {
             for (int j = 0; j < mapa.retornarAltura(); j++) {
-                Border border = BorderFactory.createLineBorder(Color.RED, 1);
+                Posicao pos = mapa.retornarPosicao(i, j);
+
                 JLabel label = new JLabel();
                 label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                label.setBorder(border);
+                label.setBorder(BorderFactory.createLineBorder(Color.BLUE, 1));
+
+                if (!pos.retornaDisponivel()) {
+                    Personagem p = pos.retornaOcupante();
+                    label.setText(p.retornaNome());
+                    label.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+                }
 
                 // int x = i;
                 // int y = j;
