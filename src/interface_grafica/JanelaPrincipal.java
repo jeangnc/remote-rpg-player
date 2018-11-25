@@ -61,8 +61,7 @@ class JanelaPrincipal extends Janela {
         JMenuItem menuItem;
         menuItem = new JMenuItem("Adicionar jogador", KeyEvent.VK_A);
         menuItem.addActionListener(e -> {
-            System.out.println("Personagem adicionado");
-
+            controlador.criarPersonagem();
         });
         menu.add(menuItem);
 

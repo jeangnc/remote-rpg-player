@@ -63,9 +63,9 @@ public class Controlador {
         janelaPrincipal.recarregar();
     }
 
-    private void criarPersonagem() {
-        // TODO - implement JanelaPrincipal.criarPersonagem
-        throw new UnsupportedOperationException();
+    void criarPersonagem() {
+        JanelaCriacaoPersonagem j = new JanelaCriacaoPersonagem(this);
+        j.abrir();
     }
 
     /**

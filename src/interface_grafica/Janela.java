@@ -6,6 +6,7 @@ import java.awt.*;
 
 abstract class Janela {
     protected Controlador controlador;
+
     private JFrame frame;
     private String titulo;
 
