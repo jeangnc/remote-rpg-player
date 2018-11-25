@@ -21,10 +21,10 @@ abstract class Janela {
 
     void abrir() {
         frame = new JFrame(titulo);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 300);
-        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         popularConteudo();
+        frame.pack();
+        frame.setLocationRelativeTo(null);
     }
 
     void redimensionar(int largura, int altura) {
