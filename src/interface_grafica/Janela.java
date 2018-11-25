@@ -1,36 +1,29 @@
 package interface_grafica;
 
-import interface_grafica.eventos.EventoInterface;
-
 import javax.swing.*;
-import java.util.function.Consumer;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
 
 abstract class Janela {
+    protected Controlador controlador;
     private JFrame frame;
-    private Consumer<EventoInterface> ouvinte;
+    private String titulo;
 
-    void escutarEventos(Consumer<EventoInterface> o) {
-        ouvinte = o;
+    Janela(Controlador c) {
+        this(c, "Old Dragon");
     }
 
-    void publicarEvento(EventoInterface e) {
-        ouvinte.accept(e);
+    Janela(Controlador c, String t) {
+        controlador = c;
+        titulo = t;
     }
 
     void abrir() {
-        frame = new JFrame("Old Dragon");
+        frame = new JFrame(titulo);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 300);
         frame.setLocationRelativeTo(null);
-        frame.setContentPane(renderizar());
-        frame.pack();
-
-        JMenuBar barraMenu = renderizarMenu();
-        if (barraMenu != null) {
-            frame.setJMenuBar(barraMenu);
-        }
-
-        frame.setVisible(true);
+        popularConteudo();
     }
 
     void redimensionar(int largura, int altura) {
@@ -39,10 +32,23 @@ abstract class Janela {
     }
 
     void recarregar() {
-        frame.setContentPane(renderizar());
-        frame.setVisible(true);
+        popularConteudo();
     }
 
     abstract JPanel renderizar();
     abstract JMenuBar renderizarMenu();
+
+    private void popularConteudo() {
+        JPanel conteudo = renderizar();
+        conteudo.setBorder(new EmptyBorder(5, 5, 5, 5));
+        frame.setContentPane(conteudo);
+
+        JMenuBar barraMenu = renderizarMenu();
+        if (barraMenu != null) {
+            barraMenu.setMargin(new Insets(0,0,5,0));
+            frame.setJMenuBar(barraMenu);
+        }
+
+        frame.setVisible(true);
+    }
 }

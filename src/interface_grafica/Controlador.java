@@ -20,6 +20,12 @@ public class Controlador {
         partida = p;
     }
 
+    void publicarEvento(EventoInterface e) {
+        for (Consumer<EventoInterface> ouvinte : ouvintes) {
+            ouvinte.accept(e);
+        }
+    }
+
     /**
      *
      * @param c
@@ -29,9 +35,8 @@ public class Controlador {
     }
 
     public void iniciar() {
-        janelaPrincipal = new JanelaPrincipal(partida);
+        janelaPrincipal = new JanelaPrincipal(this, partida);
         janelaPrincipal.abrir();
-        propagarEventos(janelaPrincipal);
     }
 
     public void solicitarIniciativas() {
@@ -54,6 +59,7 @@ public class Controlador {
     }
 
     public void recarregar() {
+        // TODO precisa chamar recarregar em todas as janelas abertas
         janelaPrincipal.recarregar();
     }
 
@@ -83,13 +89,5 @@ public class Controlador {
     private void desconectar() {
         // TODO - implement JanelaPrincipal.desconectar
         throw new UnsupportedOperationException();
-    }
-
-    private void propagarEventos(Janela j) {
-        j.escutarEventos((e) -> {
-            for (Consumer<EventoInterface> ouvinte : ouvintes) {
-                ouvinte.accept(e);
-            }
-        });
     }
 }

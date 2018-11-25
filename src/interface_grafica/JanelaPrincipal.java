@@ -9,19 +9,20 @@ import java.awt.event.KeyEvent;
 class JanelaPrincipal extends Janela {
     private Partida partida;
 
-    JanelaPrincipal(Partida p) {
+    JanelaPrincipal(Controlador c, Partida p) {
+        super(c);
         partida = p;
     }
 
     @Override
     JPanel renderizar() {
-        redimensionar(300, 100);
+        redimensionar(300, 150);
 
         if (partida.retornarJogador() == null) {
             FormularioConexao f = new FormularioConexao() {
                 @Override
                 void conexaoSolicitada(int id, String nome) {
-                    publicarEvento(new ConexaoSolicitada(id, nome));
+                    controlador.publicarEvento(new ConexaoSolicitada(id, nome));
                 }
             };
 
@@ -51,18 +52,21 @@ class JanelaPrincipal extends Janela {
     }
 
     JMenuBar renderizarMenu () {
-        JMenuBar menuBar;
-        JMenu menu;
+        if (partida.retornarJogador() == null) {
+            return null;
+        }
+
+        JMenu menu = new JMenu("Jogo");
+
         JMenuItem menuItem;
+        menuItem = new JMenuItem("Adicionar jogador", KeyEvent.VK_A);
+        menuItem.addActionListener(e -> {
+            System.out.println("Personagem adicionado");
 
-        menu = new JMenu("A Menu");
-        menu.getAccessibleContext().setAccessibleDescription("The only menu in this program that has menu items");
-
-        menuItem = new JMenuItem("A text-only menu item", KeyEvent.VK_A);
-        menuItem.getAccessibleContext().setAccessibleDescription("This doesn't really do anything");
+        });
         menu.add(menuItem);
 
-        menuBar = new JMenuBar();
+        JMenuBar menuBar = new JMenuBar();
         menuBar.add(menu);
 
         return menuBar;
