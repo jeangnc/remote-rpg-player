@@ -17,22 +17,18 @@ class JanelaPrincipal extends Janela {
 
     @Override
     JPanel renderizar() {
-        redimensionar(300, 150);
-
         if (partida.retornarJogador() == null) {
-            FormularioConexao f = new FormularioConexao() {
+            return new FormularioConexao() {
                 @Override
-                void conexaoSolicitada(int id, String nome) {
+                public void conexaoSolicitada(int id, String nome) {
                     controlador.publicarEvento(new ConexaoSolicitada(id, nome));
                 }
-            };
-
-            return f.renderizar();
+            }.renderizar();
         }
 
         redimensionar(800, 600);
 
-        VisualizacaoMapa m = new VisualizacaoMapa(partida.retornarMapa()) {
+        return new VisualizacaoMapa(partida.retornarMapa()) {
             @Override
             public void personagemAtacado() {
                 System.out.println("Personagem atacado");
@@ -47,9 +43,7 @@ class JanelaPrincipal extends Janela {
             public void personagemMovido() {
                 System.out.println("Movido");
             }
-        };
-
-        return m.renderizar();
+        }.renderizar();
     }
 
     JMenuBar renderizarMenu () {
