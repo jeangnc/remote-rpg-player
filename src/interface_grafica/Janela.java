@@ -13,7 +13,7 @@ abstract class Janela {
         ouvinte = o;
     }
 
-    void emitirEvento(EventoInterface e) {
+    void publicarEvento(EventoInterface e) {
         ouvinte.accept(e);
     }
 

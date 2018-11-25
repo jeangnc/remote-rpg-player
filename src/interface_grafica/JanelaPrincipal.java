@@ -4,6 +4,7 @@ import interface_grafica.eventos.ConexaoSolicitada;
 import modelos.Partida;
 
 import javax.swing.*;
+import java.awt.event.KeyEvent;
 
 class JanelaPrincipal extends Janela {
     private Partida partida;
@@ -20,7 +21,7 @@ class JanelaPrincipal extends Janela {
             FormularioConexao f = new FormularioConexao() {
                 @Override
                 void conexaoSolicitada(int id, String nome) {
-                    emitirEvento(new ConexaoSolicitada(id, nome));
+                    publicarEvento(new ConexaoSolicitada(id, nome));
                 }
             };
 
