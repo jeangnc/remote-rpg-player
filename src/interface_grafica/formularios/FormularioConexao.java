@@ -10,7 +10,7 @@ public class FormularioConexao {
     private JPanel panel;
     private JButton conectarButton;
 
-    FormularioConexao() {
+    public FormularioConexao() {
         conectarButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -19,9 +19,9 @@ public class FormularioConexao {
         });
     }
 
-    void conexaoSolicitada(int id, String nome) { }
-
-    JPanel renderizar() {
+    public JPanel renderizar() {
         return panel;
     }
+
+    public void conexaoSolicitada(int id, String nome) {}
 }

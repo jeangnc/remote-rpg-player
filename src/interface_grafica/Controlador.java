@@ -72,7 +72,7 @@ public class Controlador {
      *
      * @param p
      */
-    private void curar(Personagem p) {
+    void curar(Personagem p) {
         // TODO - implement JanelaPrincipal.curar
         throw new UnsupportedOperationException();
     }
@@ -81,12 +81,12 @@ public class Controlador {
      *
      * @param p
      */
-    private void atacar(Personagem p) {
+    void atacar(Personagem p) {
         // TODO - implement JanelaPrincipal.atacar
         throw new UnsupportedOperationException();
     }
 
-    private void desconectar() {
+    void desconectar() {
         // TODO - implement JanelaPrincipal.desconectar
         throw new UnsupportedOperationException();
     }
