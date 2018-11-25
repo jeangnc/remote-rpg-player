@@ -1,6 +1,7 @@
 package interface_grafica;
 
 import interface_grafica.eventos.ConexaoSolicitada;
+import interface_grafica.formularios.FormularioConexao;
 import modelos.Partida;
 
 import javax.swing.*;

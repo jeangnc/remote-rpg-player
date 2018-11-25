@@ -1,4 +1,4 @@
-package interface_grafica;
+package interface_grafica.formularios;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
