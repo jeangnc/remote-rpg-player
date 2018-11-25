@@ -2,6 +2,7 @@ package interface_grafica;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class FormularioConexao {
     private JTextField campoNome;
@@ -9,19 +10,18 @@ public class FormularioConexao {
     private JPanel panel;
     private JButton conectarButton;
 
-    void escutarEventosConectar(MouseAdapter adapter) {
-        conectarButton.addMouseListener(adapter);
+    FormularioConexao() {
+        conectarButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                conexaoSolicitada(Integer.parseInt(campoId.getText()), campoNome.getText());
+            }
+        });
     }
+
+    void conexaoSolicitada(int id, String nome) { }
 
     JPanel renderizar() {
         return panel;
-    }
-
-    String retornarNome() {
-        return campoNome.getText();
-    }
-
-    String retornarId() {
-        return campoId.getText();
     }
 }

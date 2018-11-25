@@ -4,14 +4,12 @@ import interface_grafica.eventos.ConexaoSolicitada;
 import modelos.Partida;
 
 import javax.swing.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 class JanelaPrincipal extends Janela {
     private Partida partida;
 
-    JanelaPrincipal(Partida partida) {
-        this.partida = partida;
+    JanelaPrincipal(Partida p) {
+        partida = p;
     }
 
     @Override
@@ -19,21 +17,35 @@ class JanelaPrincipal extends Janela {
         redimensionar(300, 100);
 
         if (partida.retornarJogador() == null) {
-            FormularioConexao f = new FormularioConexao();
-
-            f.escutarEventosConectar(new MouseAdapter() {
+            FormularioConexao f = new FormularioConexao() {
                 @Override
-                public void mouseClicked(MouseEvent e) {
-                    emitirEvento(new ConexaoSolicitada(Integer.parseInt(f.retornarId()), f.retornarNome()));
+                void conexaoSolicitada(int id, String nome) {
+                    emitirEvento(new ConexaoSolicitada(id, nome));
                 }
-            });
+            };
 
             return f.renderizar();
         }
 
         redimensionar(800, 600);
 
-        VisualizacaoMapa m = new VisualizacaoMapa(partida.retornarMapa());
+        VisualizacaoMapa m = new VisualizacaoMapa(partida.retornarMapa()) {
+            @Override
+            public void personagemAtacado() {
+                System.out.println("Personagem atacado");
+            }
+
+            @Override
+            public void personagemCurado() {
+                System.out.println("Personagem curado");
+            }
+
+            @Override
+            public void personagemMovido() {
+                System.out.println("Movido");
+            }
+        };
+
         return m.renderizar();
     }
 }
