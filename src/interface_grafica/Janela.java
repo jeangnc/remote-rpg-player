@@ -3,6 +3,7 @@ package interface_grafica;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.WindowEvent;
 
 abstract class Janela {
     protected Controlador controlador;
@@ -34,6 +35,10 @@ abstract class Janela {
 
     void recarregar() {
         popularConteudo();
+    }
+
+    void fechar () {
+        frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
     }
 
     abstract JPanel renderizar();

@@ -15,6 +15,7 @@ class JanelaCriacaoPersonagem extends Janela {
             @Override
             public void personagemCriado(String nome, int hpMaximo, boolean inimigo) {
                 controlador.publicarEvento(new PersonagemAdicionado(nome, hpMaximo, inimigo));
+                fechar();
             }
         }.renderizar();
     }
