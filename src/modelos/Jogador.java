@@ -14,4 +14,8 @@ public class Jogador {
         nome = n;
         personagens = p;
     }
+
+    public String retornarNome() {
+        return nome;
+    }
 }

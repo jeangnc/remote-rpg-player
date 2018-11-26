@@ -27,6 +27,8 @@ class JanelaPrincipal extends Janela {
             return renderizarAguardandoJogadores();
         }
 
+        mudarTitulo(partida.retornarJogador().retornarNome());
+
         return renderizarMapa();
     }
 

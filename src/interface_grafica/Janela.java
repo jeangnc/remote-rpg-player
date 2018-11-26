@@ -37,6 +37,10 @@ abstract class Janela {
         frame.setLocationRelativeTo(null);
     }
 
+    void mudarTitulo(String t) {
+        frame.setTitle(String.format("%s - %s", titulo, t));
+    }
+
     void recarregar() {
         popularConteudo();
     }
@@ -54,10 +58,9 @@ abstract class Janela {
             frame.setJMenuBar(barraMenu);
         }
 
-        frame.setVisible(false);
-
         JPanel conteudo = renderizar();
         conteudo.setBorder(new EmptyBorder(5, 5, 5, 5));
+
         frame.setContentPane(conteudo);
 
         if (!tamanhoFixado) {

@@ -31,7 +31,7 @@ public class Rede {
             Mensagem mensagem = (Mensagem) jogada;
             Evento evento = mensagem.retornarEvento();
 
-            if (tipo.isInstance(evento)) {
+            if (tipo.isAssignableFrom(evento.getClass())) {
                 c.accept(tipo.cast(evento));
             }
         });

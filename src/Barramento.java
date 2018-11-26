@@ -7,6 +7,7 @@ import interface_grafica.eventos.PersonagemAdicionado;
 import modelos.Jogador;
 import modelos.Partida;
 import modelos.eventos.EventoPartida;
+import modelos.eventos.SolicitarIniciativa;
 
 class Barramento {
     private Partida partida;
@@ -27,15 +28,44 @@ class Barramento {
     }
 
     private void ouvirEventos() {
-        controlador.escutarEventos(this::processarEventoInterface);
-        partida.escutarEventos(this::processarEventoPartida);
+        controlador.escutarEventos((eventoInterface) -> {
+            // evento de solicitação de conexão é uma exceção.. ele não é treatado pela partida e sim pela rede
+            // então ele não é transmitido para a rede
+            if (eventoInterface instanceof ConexaoSolicitada) {
+                ConexaoSolicitada e = (ConexaoSolicitada) eventoInterface;
+
+                try {
+                    rede.conectar("localhost", e.retornaNome());
+                    partida.conectadoComo(e.retornaNome());
+                    controlador.recarregar();
+
+                } catch (NaoPossivelConectarException | ArquivoMultiplayerException | JahConectadoException | NaoConectadoException e1) {
+                    e1.printStackTrace();
+                }
+            } else {
+                try {
+                    System.out.println("Recebi evento da interface");
+                    processarEventoInterface(eventoInterface);
+                    rede.transmitirEvento(eventoInterface);
+                } catch (NaoJogandoException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+
+        partida.escutarEventos((e) -> {
+            System.out.println("Recebi evento da partida");
+            processarEventoPartida(e);
+        });
 
         rede.ouvirEventos(EventoInterface.class, e -> {
-            this.processarEventoInterface((EventoInterface) e);
+            System.out.println("Recebi evento da interface via rede");
+            processarEventoInterface((EventoInterface) e);
         });
 
         rede.ouvirEventos(EventoPartida.class, e -> {
-            this.processarEventoPartida((EventoPartida) e);
+            System.out.println("Recebi evento da partida via rede");
+            processarEventoPartida((EventoPartida) e);
         });
 
         rede.ouvirNovosJogadores((jogadores) -> {
@@ -55,30 +85,10 @@ class Barramento {
      * @param eventoInterface
      */
     private void processarEventoInterface(EventoInterface eventoInterface) {
-        if (eventoInterface instanceof ConexaoSolicitada) {
-            ConexaoSolicitada e = (ConexaoSolicitada) eventoInterface;
-
-            try {
-                rede.conectar("localhost", e.retornaNome());
-                partida.conectadoComo(e.retornaNome());
-                controlador.recarregar();
-
-            } catch (NaoPossivelConectarException | ArquivoMultiplayerException | JahConectadoException | NaoConectadoException e1) {
-                e1.printStackTrace();
-            }
-        }
-
         if (eventoInterface instanceof PersonagemAdicionado) {
             PersonagemAdicionado e = (PersonagemAdicionado) eventoInterface;
-
-            try {
-                partida.adicionarPersonagem(e.retornaNome(), e.retornaHpMaximo(), e.retornaInimigo());
-                controlador.recarregar();
-                rede.transmitirEvento(eventoInterface);
-
-            } catch (NaoJogandoException e1) {
-                e1.printStackTrace();
-            }
+            partida.adicionarPersonagem(e.retornaNome(), e.retornaHpMaximo(), e.retornaInimigo());
+            controlador.recarregar();
         }
     }
 
@@ -86,5 +96,8 @@ class Barramento {
      * @param eventoPartida
      */
     private void processarEventoPartida(EventoPartida eventoPartida) {
+        if (eventoPartida instanceof SolicitarIniciativa) {
+            SolicitarIniciativa e = (SolicitarIniciativa) eventoPartida;
+        }
     }
 }

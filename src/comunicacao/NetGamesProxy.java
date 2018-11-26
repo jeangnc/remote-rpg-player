@@ -19,8 +19,8 @@ class NetGamesProxy {
     private int qtdeJogadoresConectados = 0;
 
     private Proxy proxy;
-    private Consumer<Jogada> consumidorJogadas;
-    private Consumer<ArrayList<Jogador>> consumidorJogadores;
+    private ArrayList<Consumer<Jogada>> consumidoresJogadas = new ArrayList<>();
+    private ArrayList<Consumer<ArrayList<Jogador>>> consumidoresJogadores = new ArrayList<>();
 
     NetGamesProxy(int q) {
         qtdeJogadores = q;
@@ -44,11 +44,11 @@ class NetGamesProxy {
     }
 
     void ouvirJogadas(Consumer<Jogada> c) {
-        consumidorJogadas = c;
+        consumidoresJogadas.add(c);
     }
 
     void ouvirNovosJogadores(Consumer<ArrayList<Jogador>> c) {
-        consumidorJogadores = c;
+        consumidoresJogadores.add(c);
     }
 
     void enviarJogada(Jogada j) throws NaoJogandoException {
@@ -95,7 +95,7 @@ class NetGamesProxy {
             jogadores.add(new Jogador(id, nome));
         }
 
-        consumidorJogadores.accept(jogadores);
+        consumidoresJogadores.forEach((e -> e.accept(jogadores)));
     }
 
     private boolean verificarTodosProntos() {
@@ -103,7 +103,7 @@ class NetGamesProxy {
     }
 
     private void notificarJogadaRecebida(Jogada j) {
-        consumidorJogadas.accept(j);
+        consumidoresJogadas.forEach((e -> e.accept(j)));
     }
 
     /**
@@ -118,6 +118,9 @@ class NetGamesProxy {
 
         @Override
         public void receberJogada(Jogada j) {
+            System.out.println("Recebi uma jogada");
+            System.out.println(j);
+
             netGames.notificarJogadaRecebida(j);
         }
 
