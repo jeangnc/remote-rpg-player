@@ -13,7 +13,6 @@ class Barramento {
     private Rede rede;
 
     /**
-     *
      * @param p
      * @param c
      * @param r
@@ -40,7 +39,6 @@ class Barramento {
     }
 
     /**
-     *
      * @param eventoInterface
      */
     private void processarEventoInterface(EventoInterface eventoInterface) {
@@ -49,7 +47,7 @@ class Barramento {
 
             try {
                 rede.conectar("localhost", e.retornaNome());
-                // partida.conectadoComo(e.retornaId(), e.retornaNome());
+                partida.conectadoComo(e.retornaNome());
                 controlador.recarregar();
 
             } catch (NaoPossivelConectarException | ArquivoMultiplayerException | JahConectadoException | NaoConectadoException e1) {
@@ -72,7 +70,6 @@ class Barramento {
     }
 
     /**
-     *
      * @param eventoPartida
      */
     private void processarEventoPartida(EventoPartida eventoPartida) {

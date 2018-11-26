@@ -82,10 +82,10 @@ class NetGamesProxy  {
         System.out.println("Partida pronta. Jogadores: ");
 
         for (int i = 0; i < qtdeJogadoresConectados; i++ ) {
-            int id = i + 1;
-            String nome = proxy.obterNomeAdversario(id);
+            int idJogador = i + 1;
+            String nomeJogador = proxy.obterNomeAdversario(idJogador);
 
-            String texto = String.format("ID: %s, Nome: %s", id, nome);
+            String texto = String.format("ID: %s, Nome: %s", idJogador, nomeJogador);
             System.out.println(texto);
         }
     }
