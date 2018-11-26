@@ -1,10 +1,12 @@
-package interface_grafica.formularios;
+package interface_grafica.visualizacoes;
+
+import interface_grafica.Visualizacao;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class FormularioPersonagem {
+public class FormularioPersonagem extends Visualizacao {
     private JPanel panel;
     private JTextField campoNome;
     private JTextField campoHp;

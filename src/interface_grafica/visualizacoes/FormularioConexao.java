@@ -1,10 +1,12 @@
-package interface_grafica.formularios;
+package interface_grafica.visualizacoes;
+
+import interface_grafica.Visualizacao;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class FormularioConexao {
+public class FormularioConexao extends Visualizacao {
     private JTextField campoNome;
     private JPanel panel;
     private JButton conectarButton;
