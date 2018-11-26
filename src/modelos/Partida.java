@@ -7,6 +7,11 @@ import java.util.function.Consumer;
 
 public class Partida {
 
+    private boolean conectado = false;
+    private boolean preparando = false;
+    private boolean iniciada = false;
+    private boolean aguardandoIniciativas = false;
+
     private Mapa mapa;
     private Jogador jogador;
     private ArrayList<Jogador> jogadores = new ArrayList<>();
@@ -15,8 +20,6 @@ public class Partida {
     private Turno turnoAtual;
     private Iniciativa[] iniciativasRecebidas;
     private ArrayList<Consumer<EventoPartida>> ouvintes = new ArrayList<>();
-    private boolean aguardandoIniciativas = false;
-    private boolean iniciada = false;
 
     public Partida() {
         // TODO improve
@@ -24,7 +27,6 @@ public class Partida {
     }
 
     /**
-     *
      * @param c
      */
     public void escutarEventos(Consumer<EventoPartida> c) {
@@ -32,19 +34,18 @@ public class Partida {
     }
 
     /**
-     *
-     * @param id
      * @param nome
      */
-    public void conectadoComo(int id, String nome) {
-        Jogador j = new Jogador(id, nome);
+    public void conectadoComo(String nome) {
+        conectadoComo(0, nome);
+    }
 
-        jogador = j;
-        jogadores.add(j);
+    public void conectadoComo(int id, String nome) {
+        conectado = true;
+        jogador = new Jogador(id, nome);
     }
 
     /**
-     *
      * @param j
      */
     public void adicionarJogador(Jogador j) {
@@ -54,11 +55,21 @@ public class Partida {
 
     /**
      *
+     */
+    public void iniciarPreparacao() {
+        preparando = true;
+    }
+
+    /**
      * @param nome
      * @param hpMaximo
      * @param inimigo
      */
     public void adicionarPersonagem(String nome, int hpMaximo, boolean inimigo) {
+        if (!preparando) {
+            // TODO lancar exceção
+        }
+
         Personagem p = new Personagem(nome, hpMaximo, inimigo);
 
         personagens.add(p);
@@ -66,12 +77,12 @@ public class Partida {
     }
 
     public void iniciar() {
+        preparando = false;
         // TODO - implement Partida.iniciar
         throw new UnsupportedOperationException();
     }
 
     /**
-     *
      * @param iniciativas
      */
     public void registrarIniciativas(Iniciativa[] iniciativas) {
@@ -80,7 +91,6 @@ public class Partida {
     }
 
     /**
-     *
      * @param alvo
      * @param dano
      */
@@ -90,7 +100,6 @@ public class Partida {
     }
 
     /**
-     *
      * @param p
      * @param pontos
      */
@@ -100,7 +109,6 @@ public class Partida {
     }
 
     /**
-     *
      * @param p
      * @param destino
      */
@@ -115,7 +123,6 @@ public class Partida {
     }
 
     /**
-     *
      * @param jogador
      */
     public void removerJogador(Jogador jogador) {
@@ -123,20 +130,35 @@ public class Partida {
         throw new UnsupportedOperationException();
     }
 
-    public boolean verificarAguardandoIniciativas() {
+    /**
+     * @return
+     */
+    public boolean retornarConectado() {
+        return conectado;
+    }
+
+    /**
+     * @return
+     */
+    public boolean retornarIniciada() {
+        return iniciada;
+    }
+
+    /**
+     * @return
+     */
+    public boolean retornarEmPreparacao() {
+        return preparando;
+    }
+
+    /**
+     * @return
+     */
+    public boolean retornarAguardandoIniciativas() {
         return aguardandoIniciativas;
     }
 
     /**
-     *
-     * @return
-     */
-    public Jogador retornarJogador() {
-        return jogador;
-    }
-
-    /**
-     *
      * @return
      */
     public Mapa retornarMapa() {
@@ -144,7 +166,13 @@ public class Partida {
     }
 
     /**
-     *
+     * @return
+     */
+    public Jogador retornarJogador() {
+        return jogador;
+    }
+
+    /**
      * @param e
      */
     private void publicarEvento(EventoPartida e) {

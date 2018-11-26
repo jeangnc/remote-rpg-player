@@ -19,15 +19,51 @@ class JanelaPrincipal extends Janela {
 
     @Override
     JPanel renderizar() {
-        if (partida.retornarJogador() == null) {
-            return new FormularioConexao() {
-                @Override
-                public void conexaoSolicitada(String nome) {
-                    controlador.publicarEvento(new ConexaoSolicitada(nome));
-                }
-            }.renderizar();
+        if (!partida.retornarConectado()) {
+            return renderizarFormularioConexao();
         }
 
+        if (!partida.retornarIniciada() && !partida.retornarEmPreparacao()) {
+            return renderizarAguardandoJogadores();
+        }
+
+        return renderizarMapa();
+    }
+
+    JMenuBar renderizarMenu () {
+        if (!partida.retornarEmPreparacao()) {
+            return null;
+        }
+
+        JMenu menu = new JMenu("Jogo");
+
+        JMenuItem menuItem;
+        menuItem = new JMenuItem("Adicionar personagem", KeyEvent.VK_A);
+        menuItem.addActionListener(e -> {
+            controlador.criarPersonagem();
+        });
+        menu.add(menuItem);
+
+        JMenuBar menuBar = new JMenuBar();
+        menuBar.add(menu);
+
+        return menuBar;
+    }
+
+    private JPanel renderizarFormularioConexao() {
+        return new FormularioConexao() {
+            @Override
+            public void conexaoSolicitada(String nome) {
+                controlador.publicarEvento(new ConexaoSolicitada(nome));
+            }
+        }.renderizar();
+    }
+
+    private JPanel renderizarAguardandoJogadores() {
+        return new AguardandoJogadores().renderizar();
+    }
+
+    private JPanel renderizarMapa() {
         redimensionar(800, 600);
 
         return new VisualizacaoMapa(partida.retornarMapa()) {
@@ -46,25 +82,5 @@ class JanelaPrincipal extends Janela {
                 System.out.println("Movido");
             }
         }.renderizar();
-    }
-
-    JMenuBar renderizarMenu () {
-        if (partida.retornarJogador() == null) {
-            return null;
-        }
-
-        JMenu menu = new JMenu("Jogo");
-
-        JMenuItem menuItem;
-        menuItem = new JMenuItem("Adicionar personagem", KeyEvent.VK_A);
-        menuItem.addActionListener(e -> {
-            controlador.criarPersonagem();
-        });
-        menu.add(menuItem);
-
-        JMenuBar menuBar = new JMenuBar();
-        menuBar.add(menu);
-
-        return menuBar;
     }
 }
