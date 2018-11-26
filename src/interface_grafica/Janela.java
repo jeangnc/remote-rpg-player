@@ -10,6 +10,11 @@ abstract class Janela {
 
     private JFrame frame;
     private String titulo;
+    private boolean tamanhoFixado = false;
+
+    abstract JPanel renderizar();
+
+    abstract JMenuBar renderizarMenu();
 
     Janela(Controlador c) {
         this(c, "Old Dragon");
@@ -27,8 +32,8 @@ abstract class Janela {
     }
 
     void redimensionar(int largura, int altura) {
+        tamanhoFixado = true;
         frame.setSize(largura, altura);
-        frame.setLocationRelativeTo(null);
     }
 
     void recarregar() {
@@ -39,14 +44,8 @@ abstract class Janela {
         frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
     }
 
-    abstract JPanel renderizar();
-
-    abstract JMenuBar renderizarMenu();
-
     private void popularConteudo() {
-        JPanel conteudo = renderizar();
-        conteudo.setBorder(new EmptyBorder(5, 5, 5, 5));
-        frame.setContentPane(conteudo);
+        tamanhoFixado = false;
 
         JMenuBar barraMenu = renderizarMenu();
         if (barraMenu != null) {
@@ -54,8 +53,18 @@ abstract class Janela {
             frame.setJMenuBar(barraMenu);
         }
 
-        frame.pack();
-        frame.setLocationRelativeTo(null);
+        JPanel conteudo = renderizar();
+        conteudo.setBorder(new EmptyBorder(5, 5, 5, 5));
+        frame.setContentPane(conteudo);
+
+        ajustarTamanho();
         frame.setVisible(true);
+    }
+
+    private void ajustarTamanho() {
+        if (!tamanhoFixado) {
+            frame.pack();
+        }
+        frame.setLocationRelativeTo(null);
     }
 }

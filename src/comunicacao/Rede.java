@@ -14,7 +14,6 @@ public class Rede {
     }
 
     /**
-     *
      * @param hostServidor
      * @param nomeJogador
      * @throws NaoPossivelConectarException
@@ -23,8 +22,7 @@ public class Rede {
      * @throws NaoConectadoException
      */
     public void conectar(String hostServidor, String nomeJogador)
-            throws NaoPossivelConectarException, ArquivoMultiplayerException, JahConectadoException, NaoConectadoException
-    {
+            throws NaoPossivelConectarException, ArquivoMultiplayerException, JahConectadoException, NaoConectadoException {
         netGames.conectar(hostServidor, nomeJogador);
     }
 
@@ -44,16 +42,14 @@ public class Rede {
     }
 
     /**
-     *
      * @param e
      * @throws NaoJogandoException
      */
-    public void transmitirEvento(Evento e) throws NaoJogandoException  {
+    public void transmitirEvento(Evento e) throws NaoJogandoException {
         netGames.enviarJogada(new Mensagem(e));
     }
 
     public void desconectar() {
-        // TODO - implement Rede.desconectar
-        throw new UnsupportedOperationException();
+        netGames.desconectar();
     }
 }

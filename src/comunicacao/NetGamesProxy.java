@@ -13,7 +13,7 @@ import modelos.Jogador;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
-class NetGamesProxy  {
+class NetGamesProxy {
     private boolean conectado = false;
     private int qtdeJogadores = 0;
     private int qtdeJogadoresConectados = 0;
@@ -31,8 +31,7 @@ class NetGamesProxy  {
     }
 
     void conectar(String hostServidor, String nomeJogador)
-            throws ArquivoMultiplayerException, NaoConectadoException, JahConectadoException, NaoPossivelConectarException
-    {
+            throws ArquivoMultiplayerException, NaoConectadoException, JahConectadoException, NaoPossivelConectarException {
         // abre a conexão com o servidor do NetGames
         proxy.conectar(hostServidor, nomeJogador);
         conectado = true;
@@ -89,7 +88,7 @@ class NetGamesProxy  {
         // nos testes que fiz com partidas de 3 jogadores, o primeiro jogador não recebe a notificação de conexão do segundo
         // portando, vou emitir apenas um evento quando todos já estiverem conectados, dessa forma eu consigo garantir também
         // que o jogador terá um identificador global
-        for (int i = 0; i < qtdeJogadoresConectados; i++ ) {
+        for (int i = 0; i < qtdeJogadoresConectados; i++) {
             int id = i + 1;
             String nome = proxy.obterNomeAdversario(id);
 

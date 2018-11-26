@@ -39,12 +39,15 @@ class Barramento {
         });
 
         rede.ouvirNovosJogadores((jogadores) -> {
+            System.out.println("Recebendo novos jogadores");
+
             // TODO setar o ID do meu jogador, quando me conectei eu ainda não tinha
             for(Jogador j : jogadores) {
                 partida.adicionarJogador(j);
             }
 
             partida.iniciarPreparacao();
+            controlador.recarregar();
         });
     }
 
