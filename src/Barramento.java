@@ -4,6 +4,7 @@ import interface_grafica.Controlador;
 import interface_grafica.eventos.ConexaoSolicitada;
 import interface_grafica.eventos.EventoInterface;
 import interface_grafica.eventos.PersonagemAdicionado;
+import modelos.Jogador;
 import modelos.Partida;
 import modelos.eventos.EventoPartida;
 
@@ -22,19 +23,28 @@ class Barramento {
         controlador = c;
         rede = r;
 
-        escutarEventos();
+        ouvirEventos();
     }
 
-    private void escutarEventos() {
+    private void ouvirEventos() {
         controlador.escutarEventos(this::processarEventoInterface);
         partida.escutarEventos(this::processarEventoPartida);
 
-        rede.escutarEventos(EventoInterface.class, e -> {
+        rede.ouvirEventos(EventoInterface.class, e -> {
             this.processarEventoInterface((EventoInterface) e);
         });
 
-        rede.escutarEventos(EventoPartida.class, e -> {
+        rede.ouvirEventos(EventoPartida.class, e -> {
             this.processarEventoPartida((EventoPartida) e);
+        });
+
+        rede.ouvirNovosJogadores((jogadores) -> {
+            // TODO setar o ID do meu jogador, quando me conectei eu ainda não tinha
+            for(Jogador j : jogadores) {
+                partida.adicionarJogador(j);
+            }
+
+            partida.iniciarPreparacao();
         });
     }
 

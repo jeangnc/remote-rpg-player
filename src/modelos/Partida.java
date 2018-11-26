@@ -49,8 +49,7 @@ public class Partida {
      * @param j
      */
     public void adicionarJogador(Jogador j) {
-        // TODO - implement Partida.adicionarJogador
-        throw new UnsupportedOperationException();
+        jogadores.add(j);
     }
 
     /**

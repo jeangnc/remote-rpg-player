@@ -69,16 +69,19 @@ class JanelaPrincipal extends Janela {
         return new VisualizacaoMapa(partida.retornarMapa()) {
             @Override
             public void personagemAtacado() {
+                // TODO abrir janela de ataque
                 System.out.println("Personagem atacado");
             }
 
             @Override
             public void personagemCurado() {
+                // TODO abrir janela de cura
                 System.out.println("Personagem curado");
             }
 
             @Override
             public void personagemMovido() {
+                // TODO emitir evento de movimentacao
                 System.out.println("Movido");
             }
         }.renderizar();

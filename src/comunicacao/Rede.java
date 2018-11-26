@@ -3,6 +3,7 @@ package comunicacao;
 import br.ufsc.inf.leobr.cliente.exception.*;
 import modelos.Jogador;
 
+import java.util.ArrayList;
 import java.util.function.Consumer;
 
 public class Rede {
@@ -27,7 +28,7 @@ public class Rede {
         netGames.conectar(hostServidor, nomeJogador);
     }
 
-    public void escutarEventos(Class<?> tipo, Consumer<Object> c) {
+    public void ouvirEventos(Class<?> tipo, Consumer<Object> c) {
         netGames.ouvirJogadas((jogada) -> {
             Mensagem mensagem = (Mensagem) jogada;
             Evento evento = mensagem.retornarEvento();
@@ -36,6 +37,10 @@ public class Rede {
                 c.accept(tipo.cast(evento));
             }
         });
+    }
+
+    public void ouvirNovosJogadores(Consumer<ArrayList<Jogador>> c) {
+        netGames.ouvirNovosJogadores(c);
     }
 
     /**

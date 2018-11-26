@@ -8,7 +8,9 @@ import br.ufsc.inf.leobr.cliente.exception.JahConectadoException;
 import br.ufsc.inf.leobr.cliente.exception.NaoConectadoException;
 import br.ufsc.inf.leobr.cliente.exception.NaoJogandoException;
 import br.ufsc.inf.leobr.cliente.exception.NaoPossivelConectarException;
+import modelos.Jogador;
 
+import java.util.ArrayList;
 import java.util.function.Consumer;
 
 class NetGamesProxy  {
@@ -18,6 +20,7 @@ class NetGamesProxy  {
 
     private Proxy proxy;
     private Consumer<Jogada> consumidorJogadas;
+    private Consumer<ArrayList<Jogador>> consumidorJogadores;
 
     NetGamesProxy(int q) {
         qtdeJogadores = q;
@@ -45,6 +48,10 @@ class NetGamesProxy  {
         consumidorJogadas = c;
     }
 
+    void ouvirNovosJogadores(Consumer<ArrayList<Jogador>> c) {
+        consumidorJogadores = c;
+    }
+
     void enviarJogada(Jogada j) throws NaoJogandoException {
         if (!this.verificarTodosProntos()) {
             throw new NaoJogandoException();
@@ -61,10 +68,6 @@ class NetGamesProxy  {
         }
     }
 
-    private void notificarJogadaRecebida(Jogada j) {
-        consumidorJogadas.accept(j);
-    }
-
     private void notificarNovoJogador() {
         int novaQtdeJogadores = proxy.obterNomeAdversarios().size() + 1;
 
@@ -79,19 +82,29 @@ class NetGamesProxy  {
     }
 
     private void notificarTodosConectados() {
-        System.out.println("Partida pronta. Jogadores: ");
+        // TODO remover esse acoplamento com Jogador
+        ArrayList<Jogador> jogadores = new ArrayList<>();
 
+        // o netgames não me manda todas as notificações de conexão...
+        // nos testes que fiz com partidas de 3 jogadores, o primeiro jogador não recebe a notificação de conexão do segundo
+        // portando, vou emitir apenas um evento quando todos já estiverem conectados, dessa forma eu consigo garantir também
+        // que o jogador terá um identificador global
         for (int i = 0; i < qtdeJogadoresConectados; i++ ) {
-            int idJogador = i + 1;
-            String nomeJogador = proxy.obterNomeAdversario(idJogador);
+            int id = i + 1;
+            String nome = proxy.obterNomeAdversario(id);
 
-            String texto = String.format("ID: %s, Nome: %s", idJogador, nomeJogador);
-            System.out.println(texto);
+            jogadores.add(new Jogador(id, nome));
         }
+
+        consumidorJogadores.accept(jogadores);
     }
 
     private boolean verificarTodosProntos() {
         return conectado && qtdeJogadoresConectados >= qtdeJogadores;
+    }
+
+    private void notificarJogadaRecebida(Jogada j) {
+        consumidorJogadas.accept(j);
     }
 
     /**
