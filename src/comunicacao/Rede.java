@@ -15,19 +15,16 @@ public class Rede {
     /**
      *
      * @param hostServidor
-     * @param idJogador
      * @param nomeJogador
-     * @return
      * @throws NaoPossivelConectarException
      * @throws ArquivoMultiplayerException
      * @throws JahConectadoException
      * @throws NaoConectadoException
      */
-    public Jogador conectar(String hostServidor, int idJogador, String nomeJogador)
+    public void conectar(String hostServidor, String nomeJogador)
             throws NaoPossivelConectarException, ArquivoMultiplayerException, JahConectadoException, NaoConectadoException
     {
-        netGames.conectar(hostServidor, idJogador, nomeJogador);
-        return new Jogador(idJogador, nomeJogador);
+        netGames.conectar(hostServidor, nomeJogador);
     }
 
     public void escutarEventos(Class<?> tipo, Consumer<Object> c) {

@@ -6,7 +6,6 @@ import java.awt.event.MouseEvent;
 
 public class FormularioConexao {
     private JTextField campoNome;
-    private JTextField campoId;
     private JPanel panel;
     private JButton conectarButton;
 
@@ -14,7 +13,7 @@ public class FormularioConexao {
         conectarButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                conexaoSolicitada(Integer.parseInt(campoId.getText()), campoNome.getText());
+                conexaoSolicitada(campoNome.getText());
             }
         });
     }
@@ -23,5 +22,5 @@ public class FormularioConexao {
         return panel;
     }
 
-    public void conexaoSolicitada(int id, String nome) {}
+    public void conexaoSolicitada(String nome) {}
 }

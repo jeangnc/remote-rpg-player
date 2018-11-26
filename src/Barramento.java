@@ -48,8 +48,8 @@ class Barramento {
             ConexaoSolicitada e = (ConexaoSolicitada) eventoInterface;
 
             try {
-                rede.conectar("localhost", e.retornaId(), e.retornaNome());
-                partida.conectadoComo(e.retornaId(), e.retornaNome());
+                rede.conectar("localhost", e.retornaNome());
+                // partida.conectadoComo(e.retornaId(), e.retornaNome());
                 controlador.recarregar();
 
             } catch (NaoPossivelConectarException | ArquivoMultiplayerException | JahConectadoException | NaoConectadoException e1) {

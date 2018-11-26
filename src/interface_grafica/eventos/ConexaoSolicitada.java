@@ -1,16 +1,10 @@
 package interface_grafica.eventos;
 
 public class ConexaoSolicitada extends EventoInterface {
-    private int id;
     private String nome;
 
-    public ConexaoSolicitada(int i, String n) {
-        id = i;
+    public ConexaoSolicitada(String n) {
         nome = n;
-    }
-
-    public int retornaId() {
-        return id;
     }
 
     public String retornaNome() {

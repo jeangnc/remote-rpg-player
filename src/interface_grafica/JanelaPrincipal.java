@@ -20,8 +20,8 @@ class JanelaPrincipal extends Janela {
         if (partida.retornarJogador() == null) {
             return new FormularioConexao() {
                 @Override
-                public void conexaoSolicitada(int id, String nome) {
-                    controlador.publicarEvento(new ConexaoSolicitada(id, nome));
+                public void conexaoSolicitada(String nome) {
+                    controlador.publicarEvento(new ConexaoSolicitada(nome));
                 }
             }.renderizar();
         }
