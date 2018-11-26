@@ -34,6 +34,7 @@ abstract class Janela {
     void redimensionar(int largura, int altura) {
         tamanhoFixado = true;
         frame.setSize(largura, altura);
+        frame.setLocationRelativeTo(null);
     }
 
     void recarregar() {
@@ -53,18 +54,17 @@ abstract class Janela {
             frame.setJMenuBar(barraMenu);
         }
 
+        frame.setVisible(false);
+
         JPanel conteudo = renderizar();
         conteudo.setBorder(new EmptyBorder(5, 5, 5, 5));
         frame.setContentPane(conteudo);
 
-        ajustarTamanho();
-        frame.setVisible(true);
-    }
-
-    private void ajustarTamanho() {
         if (!tamanhoFixado) {
             frame.pack();
         }
+
         frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 }
