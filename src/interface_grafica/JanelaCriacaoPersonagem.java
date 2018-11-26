@@ -1,7 +1,7 @@
 package interface_grafica;
 
 import interface_grafica.eventos.PersonagemAdicionado;
-import interface_grafica.formularios.FormularioPersonagem;
+import interface_grafica.visualizacoes.FormularioPersonagem;
 
 import javax.swing.*;
 

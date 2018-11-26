@@ -1,7 +1,9 @@
 package interface_grafica;
 
 import interface_grafica.eventos.ConexaoSolicitada;
-import interface_grafica.formularios.FormularioConexao;
+import interface_grafica.visualizacoes.FormularioConexao;
+import interface_grafica.visualizacoes.AguardandoJogadores;
+import interface_grafica.visualizacoes.VisualizacaoMapa;
 import modelos.Partida;
 
 import javax.swing.*;
