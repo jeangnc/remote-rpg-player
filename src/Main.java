@@ -8,7 +8,11 @@ public class Main {
     public static void main(String[] args)
             throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException
     {
-        int nJogadores = args.length == 0 ? 1 : 2;
+        int nJogadores = 1;
+
+        if (args.length > 0) {
+            nJogadores = Integer.parseInt(args[0]);
+        }
 
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
