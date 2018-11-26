@@ -24,8 +24,6 @@ abstract class Janela {
         frame = new JFrame(titulo);
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         popularConteudo();
-        frame.pack();
-        frame.setLocationRelativeTo(null);
     }
 
     void redimensionar(int largura, int altura) {
@@ -37,11 +35,12 @@ abstract class Janela {
         popularConteudo();
     }
 
-    void fechar () {
+    void fechar() {
         frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
     }
 
     abstract JPanel renderizar();
+
     abstract JMenuBar renderizarMenu();
 
     private void popularConteudo() {
@@ -51,10 +50,12 @@ abstract class Janela {
 
         JMenuBar barraMenu = renderizarMenu();
         if (barraMenu != null) {
-            barraMenu.setMargin(new Insets(0,0,5,0));
+            barraMenu.setMargin(new Insets(0, 0, 5, 0));
             frame.setJMenuBar(barraMenu);
         }
 
+        frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 }
