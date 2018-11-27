@@ -55,9 +55,10 @@ class Barramento {
             processarEventoInterface(idJogador, (EventoInterface) evento);
         });
 
-        rede.ouvirEventos(EventoPartida.class, (idJogador, evento) -> {
-            processarEventoPartida(idJogador, (EventoPartida) evento);
-        });
+        // a partida não deveria, em teoria, publicar eventos na rede
+        // rede.ouvirEventos(EventoPartida.class, (idJogador, evento) -> {
+        //    processarEventoPartida(idJogador, (EventoPartida) evento);
+        // });
 
         rede.ouvirNovosJogadores((jogadores) -> {
             for(Jogador j : jogadores) {
