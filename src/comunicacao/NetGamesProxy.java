@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.function.Consumer;
 
 class NetGamesProxy {
+    private static final String DATA_SEPARATOR = "/";
+
     private boolean conectado = false;
     private int qtdeJogadores = 0;
     private int qtdeJogadoresConectados = 0;
@@ -30,17 +32,20 @@ class NetGamesProxy {
 
     }
 
-    void conectar(String hostServidor, String nomeJogador)
+    void conectar(String hostServidor, String idJogador, String nomeJogador)
             throws ArquivoMultiplayerException, NaoConectadoException, JahConectadoException, NaoPossivelConectarException {
         // abre a conexão com o servidor do NetGames
-        proxy.conectar(hostServidor, nomeJogador);
-        conectado = true;
+        // o netgames não possúi um identificador global para o jogador
+        // então emulei um
+        proxy.conectar(hostServidor, idJogador + DATA_SEPARATOR + nomeJogador);
 
         // solicita uma partida para `n` jogadores
         proxy.iniciarPartida(qtdeJogadores);
 
         // notifica que o jogador está pronto
         proxy.iniciarNovaPartida(0);
+
+        conectado = true;
     }
 
     void ouvirJogadas(Consumer<Jogada> c) {
@@ -68,15 +73,10 @@ class NetGamesProxy {
     }
 
     private void notificarNovoJogador() {
-        int novaQtdeJogadores = proxy.obterNomeAdversarios().size() + 1;
+        qtdeJogadoresConectados = proxy.obterNomeAdversarios().size() + 1;
 
-        // algumas vezes eu recebo duas vezes a notificação de entrada do mesmo jogador
-        if (novaQtdeJogadores > qtdeJogadoresConectados) {
-            qtdeJogadoresConectados = novaQtdeJogadores;
-
-            if (verificarTodosProntos()) {
-                notificarTodosConectados();
-            }
+        if (verificarTodosProntos()) {
+            notificarTodosConectados();
         }
     }
 
@@ -89,8 +89,9 @@ class NetGamesProxy {
         // portando, vou emitir apenas um evento quando todos já estiverem conectados, dessa forma eu consigo garantir também
         // que o jogador terá um identificador global
         for (int i = 0; i < qtdeJogadoresConectados; i++) {
-            int id = i + 1;
-            String nome = proxy.obterNomeAdversario(id);
+            String[] data = proxy.obterNomeAdversario(i + 1).split(DATA_SEPARATOR);
+            String id = data[0];
+            String nome = data[1];
 
             jogadores.add(new Jogador(id, nome));
         }
@@ -98,10 +99,18 @@ class NetGamesProxy {
         consumidoresJogadores.forEach((e -> e.accept(jogadores)));
     }
 
+    /**
+     *
+     * @return
+     */
     private boolean verificarTodosProntos() {
         return conectado && qtdeJogadoresConectados >= qtdeJogadores;
     }
 
+    /**
+     *
+     * @param j
+     */
     private void notificarJogadaRecebida(Jogada j) {
         consumidoresJogadas.forEach((e -> e.accept(j)));
     }

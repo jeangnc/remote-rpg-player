@@ -1,21 +1,29 @@
 package modelos;
 
 public class Jogador {
-    private int id;
+    private String id;
     private String nome;
     private Personagem[] personagens;
 
-    public Jogador(int i, String n) {
-        this(i, n, null);
-    }
-
-    public Jogador(int i, String n, Personagem[] p) {
+    public Jogador(String i, String n) {
         id = i;
         nome = n;
-        personagens = p;
+    }
+
+    public String retornaId() {
+        return id;
     }
 
     public String retornarNome() {
         return nome;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Jogador) {
+            return ((Jogador) obj).retornaId().equals(id);
+        }
+
+        return super.equals(obj);
     }
 }

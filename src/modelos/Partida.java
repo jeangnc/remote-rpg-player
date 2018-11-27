@@ -34,28 +34,33 @@ public class Partida {
     }
 
     /**
+     *
+     * @param id
      * @param nome
      */
-    public void conectadoComo(String nome) {
-        conectadoComo(0, nome);
-    }
-
-    public void conectadoComo(int id, String nome) {
+    public void conectadoComo(String id, String nome) {
         conectado = true;
         jogador = new Jogador(id, nome);
+
+        adicionarJogador(jogador);
     }
 
     /**
      * @param j
      */
     public void adicionarJogador(Jogador j) {
-        jogadores.add(j);
+        if (!jogadores.contains(j)) {
+            jogadores.add(j);
+        }
     }
 
     /**
      *
      */
     public void iniciarPreparacao() {
+        jogadores.forEach(j -> {
+            System.out.println(String.format("Jogador: %s (%s)", j.retornarNome(), j.retornaId()));
+        });
         preparando = true;
     }
 

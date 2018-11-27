@@ -21,9 +21,9 @@ public class Rede {
      * @throws JahConectadoException
      * @throws NaoConectadoException
      */
-    public void conectar(String hostServidor, String nomeJogador)
+    public void conectar(String hostServidor, String idJogador, String nomeJogador)
             throws NaoPossivelConectarException, ArquivoMultiplayerException, JahConectadoException, NaoConectadoException {
-        netGames.conectar(hostServidor, nomeJogador);
+        netGames.conectar(hostServidor, idJogador, nomeJogador);
     }
 
     public void ouvirEventos(Class<?> tipo, Consumer<Object> c) {

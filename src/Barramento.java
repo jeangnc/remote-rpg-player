@@ -9,6 +9,8 @@ import modelos.Partida;
 import modelos.eventos.EventoPartida;
 import modelos.eventos.SolicitarIniciativa;
 
+import java.util.UUID;
+
 class Barramento {
     private Partida partida;
     private Controlador controlador;
@@ -35,8 +37,11 @@ class Barramento {
                 ConexaoSolicitada e = (ConexaoSolicitada) eventoInterface;
 
                 try {
-                    rede.conectar("localhost", e.retornaNome());
-                    partida.conectadoComo(e.retornaNome());
+                    String idJogador = UUID.randomUUID().toString();
+                    String nomeJogador = e.retornaNome();
+
+                    rede.conectar("localhost", idJogador, nomeJogador);
+                    partida.conectadoComo(idJogador, nomeJogador);
                     controlador.recarregar();
 
                 } catch (NaoPossivelConectarException | ArquivoMultiplayerException | JahConectadoException | NaoConectadoException e1) {
@@ -69,9 +74,6 @@ class Barramento {
         });
 
         rede.ouvirNovosJogadores((jogadores) -> {
-            System.out.println("Recebendo novos jogadores");
-
-            // TODO setar o ID do meu jogador, quando me conectei eu ainda não tinha
             for(Jogador j : jogadores) {
                 partida.adicionarJogador(j);
             }
