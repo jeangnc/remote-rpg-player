@@ -8,7 +8,6 @@ public class Personagem {
     private String nome;
     private int hpMaximo;
     private int hpAtual;
-    private boolean npc;
     private Posicao posicao;
     private Jogador dono;
     private boolean inimigo;
