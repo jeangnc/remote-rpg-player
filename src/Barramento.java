@@ -94,7 +94,7 @@ class Barramento {
 
         if (eventoInterface instanceof PersonagemAdicionado) {
             PersonagemAdicionado e = (PersonagemAdicionado) eventoInterface;
-            partida.adicionarPersonagem(e.retornaNome(), e.retornaHpMaximo(), e.retornaInimigo());
+            partida.adicionarPersonagem(idJogador, e.retornaNome(), e.retornaHpMaximo(), e.retornaInimigo(), e.retornarCoordenadaX(), e.retornarCoordenadaY());
             controlador.recarregar();
         }
     }

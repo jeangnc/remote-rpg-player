@@ -66,15 +66,17 @@ public class Partida {
      * @param hpMaximo
      * @param inimigo
      */
-    public void adicionarPersonagem(String nome, int hpMaximo, boolean inimigo) {
+    public void adicionarPersonagem(String idJogador, String nome, int hpMaximo, boolean inimigo, int x, int y) {
         if (!preparando) {
             // TODO lancar exceção
         }
 
-        Personagem p = new Personagem(nome, hpMaximo, inimigo);
+        // TODO atribuir jogador ao personagem
+        // TODO adicionar personagem no jogador
 
+        Personagem p = new Personagem(nome, hpMaximo, inimigo);
+        p.mover(mapa.retornarPosicao(x, y));
         personagens.add(p);
-        mapa.retornarPosicao(0, 0).definirOcupante(p);
     }
 
     public void iniciar() {
