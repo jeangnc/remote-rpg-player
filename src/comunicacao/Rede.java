@@ -14,7 +14,9 @@ public class Rede {
     }
 
     /**
+     * 
      * @param hostServidor
+     * @param idJogador
      * @param nomeJogador
      * @throws NaoPossivelConectarException
      * @throws ArquivoMultiplayerException
