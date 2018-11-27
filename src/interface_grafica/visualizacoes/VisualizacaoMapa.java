@@ -13,13 +13,15 @@ import java.awt.event.MouseEvent;
 public class VisualizacaoMapa extends Visualizacao {
 
     private Mapa mapa;
+    private boolean partidaIniciada;
 
     /**
      *
      * @param m
      */
-    public VisualizacaoMapa(Mapa m) {
+    public VisualizacaoMapa(Mapa m, boolean i) {
         mapa = m;
+        partidaIniciada = i;
     }
 
     public JPanel renderizar() {
@@ -30,8 +32,8 @@ public class VisualizacaoMapa extends Visualizacao {
 
         for (int i = 0; i < mapa.retornarLargura(); i++) {
             for (int j = 0; j < mapa.retornarAltura(); j++) {
-                Posicao pos = mapa.retornarPosicao(i, j);
-                Personagem personagem = pos.retornaOcupante();
+                Posicao posicao = mapa.retornarPosicao(i, j);
+                Personagem personagem = posicao.retornarOcupante();
 
                 JLabel label = new JLabel();
                 label.setBorder(BorderFactory.createLineBorder(Color.BLUE, 1));
@@ -42,35 +44,20 @@ public class VisualizacaoMapa extends Visualizacao {
                     label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 }
 
-                label.setName(i + "," + j);
                 label.addMouseListener(new MouseAdapter () {
                     @Override
                     public void mousePressed(MouseEvent e){
                         if (e.isPopupTrigger()) {
-                            doPop(e);
+                            mostrarMenuContexto(e);
                         }
                     }
 
-                    @Override
-                    public void mouseReleased(MouseEvent e) {
-                        JLabel destino = (JLabel) panel.getComponentAt(e.getPoint());
+                    private void mostrarMenuContexto(MouseEvent e){
+                        JPopupMenu menu = posicao.retornarDisponivel()
+                                ? new PopupPosicaoDisponivel(personagem, posicao)
+                                : new PopupPosicaoOcupada(personagem);
 
-                        // TODO FIXME
-                        if (personagem != null && destino != null) {
-                            String[] coordDestino = destino.getName().split(",");
-                            Posicao posDestino = mapa.retornarPosicao(Integer.parseInt(coordDestino[0]), Integer.parseInt(coordDestino[1]));
-
-                            if (posDestino != null) {
-//                                personagemMovido(personagem, destino);
-                            }
-                        }
-                    }
-
-                    private void doPop(MouseEvent e){
-                        PopupMenu menu = new PopupMenu();
                         menu.show(e.getComponent(), e.getX(), e.getY());
-
-                        // TODO só mostrar quando posicao está ocupada
                     }
                 });
 
@@ -81,22 +68,37 @@ public class VisualizacaoMapa extends Visualizacao {
         return panel;
     }
 
-    public void personagemAtacado() { }
+    public void adicionarPersonagem(Posicao pos) { }
 
-    public void personagemCurado() { }
+    public void atacarPersonagem(Personagem p) { }
 
-    public void personagemMovido() { }
+    public void curarPersonagem(Personagem p) { }
 
+    public void moverPersonagem(Personagem p, Posicao pos) { }
 
-    private class PopupMenu extends JPopupMenu {
-        PopupMenu() {
+    private class PopupPosicaoOcupada extends JPopupMenu {
+        PopupPosicaoOcupada(Personagem p) {
             JMenuItem atacar = new JMenuItem("Atacar");
-            atacar.addActionListener(e -> personagemAtacado());
+            atacar.addActionListener(e -> atacarPersonagem(p));
             add(atacar);
 
             JMenuItem curar = new JMenuItem("Curar");
-            curar.addActionListener(e -> personagemCurado());
+            curar.addActionListener(e -> curarPersonagem(p));
             add(curar);
+        }
+    }
+
+    private class PopupPosicaoDisponivel extends JPopupMenu {
+        PopupPosicaoDisponivel(Personagem p, Posicao pos) {
+            if (partidaIniciada) {
+                JMenuItem mover = new JMenuItem("Mover pra cá");
+                mover.addActionListener(e -> moverPersonagem(p, pos));
+                add(mover);
+            } else {
+                JMenuItem adicionar = new JMenuItem("Adicionar personagem aqui");
+                adicionar.addActionListener(e -> adicionarPersonagem(pos));
+                add(adicionar);
+            }
         }
     }
 }
