@@ -69,8 +69,15 @@ public class Personagem {
      * @param destino
      */
     void mover(Posicao destino) {
-        // TODO - implement Personagem.mover
-        throw new UnsupportedOperationException();
+        if (!destino.retornarDisponivel()) {
+            // TODO lançar excecao
+        }
+
+        destino.definirOcupante(this);
+
+        if (posicao != null) {
+            posicao.removerOcupante();
+        }
     }
 
     /**
@@ -87,23 +94,22 @@ public class Personagem {
      * @param hp
      */
     private void modificarHp(int hp) {
-        // TODO - implement Personagem.modificarHp
-        throw new UnsupportedOperationException();
+        hpAtual = hp;
+
+        // TODO desacordar
+        // TODO acordar
+        // TODO matar
     }
 
     private void desacordar() {
-        // TODO - implement Personagem.desacordar
-        throw new UnsupportedOperationException();
+        acordado = false;
     }
 
     private void acordar() {
-        // TODO - implement Personagem.acordar
-        throw new UnsupportedOperationException();
+        acordado = true;
     }
 
     private void matar() {
-        // TODO - implement Personagem.matar
-        throw new UnsupportedOperationException();
+        morto = true;
     }
-
 }
