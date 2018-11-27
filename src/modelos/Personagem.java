@@ -1,7 +1,10 @@
 package modelos;
 
+import java.util.UUID;
+
 public class Personagem {
 
+    private String id;
     private String nome;
     private int hpMaximo;
     private int hpAtual;
@@ -12,16 +15,28 @@ public class Personagem {
     private boolean morto;
     private boolean acordado;
 
+    public Personagem(String n, int h, boolean ig) {
+        this(UUID.randomUUID().toString(), n, h, ig);
+    }
+
     /**
      *
+     * @param i
      * @param n
      * @param h
-     * @param i
+     * @param ig
      */
-    public Personagem(String n, int h, boolean i) {
+    public Personagem(String i, String n, int h, boolean ig) {
+        id = i;
         nome = n;
         hpMaximo = h;
-        inimigo = i;
+        inimigo = ig;
+
+        modificarHp(h);
+    }
+
+    public String retornaId() {
+        return id;
     }
 
     public String retornaNome() {

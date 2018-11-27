@@ -1,9 +1,15 @@
 package modelos;
 
+import java.util.UUID;
+
 public class Jogador {
     private String id;
     private String nome;
     private Personagem[] personagens;
+
+    public Jogador(String n) {
+        this(UUID.randomUUID().toString(), n);
+    }
 
     public Jogador(String i, String n) {
         id = i;
