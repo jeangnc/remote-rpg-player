@@ -2,20 +2,36 @@ package modelos;
 
 public class Posicao {
 
+    private int coordX;
+    private int coordY;
     private Personagem ocupante = null;
-    private int coordenada_x;
-    private int coordenada_y;
 
     Posicao(int x, int y) {
-        coordenada_x = x;
-        coordenada_y = y;
+        coordX = x;
+        coordY = y;
     }
 
     /**
      *
      * @return
      */
-    public boolean retornaDisponivel() {
+    public int retornarCoordenadaX() {
+        return coordX;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public int retornarCoordenadaY() {
+        return coordY;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public boolean retornarDisponivel() {
         return ocupante == null;
     }
 
@@ -23,7 +39,7 @@ public class Posicao {
      *
      * @return
      */
-    public Personagem retornaOcupante() {
+    public Personagem retornarOcupante() {
         return ocupante;
     }
 
@@ -35,6 +51,9 @@ public class Posicao {
         ocupante = p;
     }
 
+    /**
+     *
+     */
     void removerOcupante() {
         ocupante = null;
     }
