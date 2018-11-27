@@ -4,7 +4,7 @@ import interface_grafica.eventos.ConexaoSolicitada;
 import interface_grafica.eventos.DesconexaoSolicitada;
 import interface_grafica.eventos.InicioSolicitado;
 import interface_grafica.eventos.PersonagemMovido;
-import interface_grafica.visualizacoes.FormularioConexao;
+import interface_grafica.visualizacoes.formularios.FormularioConexao;
 import interface_grafica.visualizacoes.AguardandoJogadores;
 import interface_grafica.visualizacoes.VisualizacaoMapa;
 import modelos.Partida;

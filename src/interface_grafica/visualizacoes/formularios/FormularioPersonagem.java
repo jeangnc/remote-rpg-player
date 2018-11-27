@@ -1,4 +1,4 @@
-package interface_grafica.visualizacoes;
+package interface_grafica.visualizacoes.formularios;
 
 import interface_grafica.Visualizacao;
 
