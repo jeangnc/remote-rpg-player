@@ -3,6 +3,7 @@ package interface_grafica;
 import interface_grafica.eventos.EventoInterface;
 import modelos.Partida;
 import modelos.Personagem;
+import modelos.Posicao;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
@@ -63,8 +64,8 @@ public class Controlador {
         janelaPrincipal.recarregar();
     }
 
-    void criarPersonagem() {
-        JanelaCriacaoPersonagem j = new JanelaCriacaoPersonagem(this);
+    void criarPersonagem(Posicao pos) {
+        JanelaCriacaoPersonagem j = new JanelaCriacaoPersonagem(this, pos);
         j.abrir();
     }
 
