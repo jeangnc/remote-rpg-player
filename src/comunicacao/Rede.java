@@ -4,9 +4,11 @@ import br.ufsc.inf.leobr.cliente.exception.*;
 import modelos.Jogador;
 
 import java.util.ArrayList;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class Rede {
+    private String idJogadorConectado;
     private NetGamesProxy netGames;
 
     public Rede(int nJogadores) {
@@ -14,7 +16,7 @@ public class Rede {
     }
 
     /**
-     * 
+     *
      * @param hostServidor
      * @param idJogador
      * @param nomeJogador
@@ -26,15 +28,17 @@ public class Rede {
     public void conectar(String hostServidor, String idJogador, String nomeJogador)
             throws NaoPossivelConectarException, ArquivoMultiplayerException, JahConectadoException, NaoConectadoException {
         netGames.conectar(hostServidor, idJogador, nomeJogador);
+        idJogadorConectado = idJogador;
     }
 
-    public void ouvirEventos(Class<?> tipo, Consumer<Object> c) {
+    public void ouvirEventos(Class<?> tipo, BiConsumer<String, Object> c) {
         netGames.ouvirJogadas((jogada) -> {
             Mensagem mensagem = (Mensagem) jogada;
+            String remetente = mensagem.retornarRemetente();
             Evento evento = mensagem.retornarEvento();
 
             if (tipo.isAssignableFrom(evento.getClass())) {
-                c.accept(tipo.cast(evento));
+                c.accept(remetente, tipo.cast(evento));
             }
         });
     }
@@ -48,7 +52,7 @@ public class Rede {
      * @throws NaoJogandoException
      */
     public void transmitirEvento(Evento e) throws NaoJogandoException {
-        netGames.enviarJogada(new Mensagem(e));
+        netGames.enviarJogada(new Mensagem(idJogadorConectado, e));
     }
 
     public void desconectar() {

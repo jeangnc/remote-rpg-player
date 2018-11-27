@@ -58,9 +58,6 @@ public class Partida {
      *
      */
     public void iniciarPreparacao() {
-        jogadores.forEach(j -> {
-            System.out.println(String.format("Jogador: %s (%s)", j.retornarNome(), j.retornaId()));
-        });
         preparando = true;
     }
 

@@ -34,43 +34,29 @@ class Barramento {
             // evento de solicitação de conexão é uma exceção.. ele não é treatado pela partida e sim pela rede
             // então ele não é transmitido para a rede
             if (eventoInterface instanceof ConexaoSolicitada) {
-                ConexaoSolicitada e = (ConexaoSolicitada) eventoInterface;
+                abrirConexao((ConexaoSolicitada) eventoInterface);
+                return;
+            }
 
-                try {
-                    String idJogador = UUID.randomUUID().toString();
-                    String nomeJogador = e.retornaNome();
-
-                    rede.conectar("localhost", idJogador, nomeJogador);
-                    partida.conectadoComo(idJogador, nomeJogador);
-                    controlador.recarregar();
-
-                } catch (NaoPossivelConectarException | ArquivoMultiplayerException | JahConectadoException | NaoConectadoException e1) {
-                    e1.printStackTrace();
-                }
-            } else {
-                try {
-                    System.out.println("Recebi evento da interface");
-                    processarEventoInterface(eventoInterface);
-                    rede.transmitirEvento(eventoInterface);
-                } catch (NaoJogandoException e1) {
-                    e1.printStackTrace();
-                }
+            // eventos que precisam ser transmitidos na rede
+            try {
+                processarEventoInterface(partida.retornarJogador().retornaId(), eventoInterface);
+                rede.transmitirEvento(eventoInterface);
+            } catch (NaoJogandoException e1) {
+                e1.printStackTrace();
             }
         });
 
         partida.escutarEventos((e) -> {
-            System.out.println("Recebi evento da partida");
-            processarEventoPartida(e);
+            processarEventoPartida(partida.retornarJogador().retornaId(), e);
         });
 
-        rede.ouvirEventos(EventoInterface.class, e -> {
-            System.out.println("Recebi evento da interface via rede");
-            processarEventoInterface((EventoInterface) e);
+        rede.ouvirEventos(EventoInterface.class, (idJogador, evento) -> {
+            processarEventoInterface(idJogador, (EventoInterface) evento);
         });
 
-        rede.ouvirEventos(EventoPartida.class, e -> {
-            System.out.println("Recebi evento da partida via rede");
-            processarEventoPartida((EventoPartida) e);
+        rede.ouvirEventos(EventoPartida.class, (idJogador, evento) -> {
+            processarEventoPartida(idJogador, (EventoPartida) evento);
         });
 
         rede.ouvirNovosJogadores((jogadores) -> {
@@ -83,10 +69,28 @@ class Barramento {
         });
     }
 
+    private void abrirConexao(ConexaoSolicitada evento) {
+        try {
+            String idJogador = UUID.randomUUID().toString();
+            String nomeJogador = evento.retornaNome();
+
+            rede.conectar("localhost", idJogador, nomeJogador);
+            partida.conectadoComo(idJogador, nomeJogador);
+            controlador.recarregar();
+
+        } catch (NaoPossivelConectarException | ArquivoMultiplayerException | JahConectadoException | NaoConectadoException e1) {
+            e1.printStackTrace();
+        }
+    }
+
     /**
+     *
+     * @param idJogador
      * @param eventoInterface
      */
-    private void processarEventoInterface(EventoInterface eventoInterface) {
+    private void processarEventoInterface(String idJogador, EventoInterface eventoInterface) {
+        System.out.println("Processando evento de " + idJogador);
+
         if (eventoInterface instanceof PersonagemAdicionado) {
             PersonagemAdicionado e = (PersonagemAdicionado) eventoInterface;
             partida.adicionarPersonagem(e.retornaNome(), e.retornaHpMaximo(), e.retornaInimigo());
@@ -95,9 +99,13 @@ class Barramento {
     }
 
     /**
+     *
+     * @param idJogador
      * @param eventoPartida
      */
-    private void processarEventoPartida(EventoPartida eventoPartida) {
+    private void processarEventoPartida(String idJogador, EventoPartida eventoPartida) {
+        System.out.println("Processando evento de " + idJogador);
+
         if (eventoPartida instanceof SolicitarIniciativa) {
             SolicitarIniciativa e = (SolicitarIniciativa) eventoPartida;
         }
