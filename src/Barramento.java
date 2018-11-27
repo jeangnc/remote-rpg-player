@@ -115,7 +115,7 @@ class Barramento {
         System.out.println("Processando evento de " + idJogador);
 
         if (eventoPartida instanceof SolicitarIniciativa) {
-            SolicitarIniciativa e = (SolicitarIniciativa) eventoPartida;
+            controlador.solicitarIniciativas();
         }
     }
 }
