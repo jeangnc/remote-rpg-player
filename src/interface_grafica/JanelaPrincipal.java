@@ -1,10 +1,15 @@
 package interface_grafica;
 
 import interface_grafica.eventos.ConexaoSolicitada;
+import interface_grafica.eventos.DesconexaoSolicitada;
+import interface_grafica.eventos.InicioSolicitado;
+import interface_grafica.eventos.PersonagemMovido;
 import interface_grafica.visualizacoes.FormularioConexao;
 import interface_grafica.visualizacoes.AguardandoJogadores;
 import interface_grafica.visualizacoes.VisualizacaoMapa;
 import modelos.Partida;
+import modelos.Personagem;
+import modelos.Posicao;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
@@ -38,11 +43,17 @@ class JanelaPrincipal extends Janela {
         }
 
         JMenu menu = new JMenu("Jogo");
-
         JMenuItem menuItem;
-        menuItem = new JMenuItem("Adicionar personagem", KeyEvent.VK_A);
+
+        menuItem = new JMenuItem("Iniciar partida", KeyEvent.VK_A);
         menuItem.addActionListener(e -> {
-            controlador.criarPersonagem();
+            controlador.publicarEvento(new InicioSolicitado());
+        });
+        menu.add(menuItem);
+
+        menuItem = new JMenuItem("Desconectar", KeyEvent.VK_A);
+        menuItem.addActionListener(e -> {
+            controlador.publicarEvento(new DesconexaoSolicitada());
         });
         menu.add(menuItem);
 
@@ -52,11 +63,28 @@ class JanelaPrincipal extends Janela {
         return menuBar;
     }
 
-    private JPanel renderizarFormularioConexao() {
-        return new FormularioConexao() {
+    private JPanel renderizarMapa() {
+        redimensionar(800, 600);
+
+        return new VisualizacaoMapa(partida.retornarMapa(), partida.retornarIniciada()) {
+            public void adicionarPersonagem(Posicao pos) {
+                controlador.criarPersonagem(pos);
+            }
+
             @Override
-            public void conexaoSolicitada(String nome) {
-                controlador.publicarEvento(new ConexaoSolicitada(nome));
+            public void atacarPersonagem(Personagem p) {
+                 controlador.atacar(p);
+            }
+
+            @Override
+            public void curarPersonagem(Personagem p) {
+                 controlador.curar(p);
+            }
+
+            @Override
+            public void moverPersonagem(Personagem p, Posicao pos) {
+                PersonagemMovido e = new PersonagemMovido(p.retornaId(), pos.retornarCoordenadaX(), pos.retornarCoordenadaY());
+                controlador.publicarEvento(e);
             }
         }.renderizar();
     }
@@ -65,26 +93,11 @@ class JanelaPrincipal extends Janela {
         return new AguardandoJogadores().renderizar();
     }
 
-    private JPanel renderizarMapa() {
-        redimensionar(800, 600);
-
-        return new VisualizacaoMapa(partida.retornarMapa()) {
+    private JPanel renderizarFormularioConexao() {
+        return new FormularioConexao() {
             @Override
-            public void personagemAtacado() {
-                // TODO abrir janela de ataque
-                System.out.println("Personagem atacado");
-            }
-
-            @Override
-            public void personagemCurado() {
-                // TODO abrir janela de cura
-                System.out.println("Personagem curado");
-            }
-
-            @Override
-            public void personagemMovido() {
-                // TODO emitir evento de movimentacao
-                System.out.println("Movido");
+            public void conexaoSolicitada(String nome) {
+                controlador.publicarEvento(new ConexaoSolicitada(nome));
             }
         }.renderizar();
     }
