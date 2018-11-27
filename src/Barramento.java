@@ -3,6 +3,7 @@ import comunicacao.Rede;
 import interface_grafica.Controlador;
 import interface_grafica.eventos.ConexaoSolicitada;
 import interface_grafica.eventos.EventoInterface;
+import interface_grafica.eventos.InicioSolicitado;
 import interface_grafica.eventos.PersonagemAdicionado;
 import modelos.Jogador;
 import modelos.Partida;
@@ -96,6 +97,10 @@ class Barramento {
             PersonagemAdicionado e = (PersonagemAdicionado) eventoInterface;
             partida.adicionarPersonagem(idJogador, e.retornaNome(), e.retornaHpMaximo(), e.retornaInimigo(), e.retornarCoordenadaX(), e.retornarCoordenadaY());
             controlador.recarregar();
+        }
+
+        else if (eventoInterface instanceof InicioSolicitado) {
+            partida.iniciar();
         }
     }
 
