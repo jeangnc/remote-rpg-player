@@ -1,18 +1,32 @@
 package interface_grafica.eventos;
 
-import modelos.Personagem;
-import modelos.Posicao;
-
 public class PersonagemMovido extends EventoInterface {
+
+    String idPersonagem;
+    int coordX;
+    int coordY;
 
     /**
      *
-     * @param p
-     * @param d
+     * @param i
+     * @param x
+     * @param y
      */
-    public PersonagemMovido(Personagem p, Posicao d) {
-        // TODO - implement PersonagemMovido.PersonagemMovido
-        throw new UnsupportedOperationException();
+    public PersonagemMovido(String i, int x, int y) {
+        idPersonagem = i;
+        coordX = x;
+        coordY = y;
     }
 
+    public String retornarIdPersonagem() {
+        return idPersonagem;
+    }
+
+    public int retornarCoordenadaX() {
+        return coordX;
+    }
+
+    public int retornarCoordenadaY() {
+        return coordY;
+    }
 }
