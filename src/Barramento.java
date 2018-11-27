@@ -43,10 +43,12 @@ class Barramento {
             try {
                 processarEventoInterface(partida.retornarJogador().retornaId(), eventoInterface);
                 rede.transmitirEvento(eventoInterface);
+                controlador.recarregar();
             } catch (NaoJogandoException e1) {
                 e1.printStackTrace();
             }
         });
+
 
         partida.escutarEventos((e) -> {
             processarEventoPartida(partida.retornarJogador().retornaId(), e);
