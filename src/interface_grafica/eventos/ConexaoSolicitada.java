@@ -7,7 +7,7 @@ public class ConexaoSolicitada extends EventoInterface {
         nome = n;
     }
 
-    public String retornaNome() {
+    public String retornarNome() {
         return nome;
     }
 }

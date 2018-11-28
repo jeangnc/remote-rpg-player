@@ -23,7 +23,7 @@ class JanelaPrincipal extends Janela {
     }
 
     @Override
-    JPanel renderizar() {
+    protected JPanel renderizar() {
         if (!partida.retornarConectado()) {
             return renderizarFormularioConexao();
         }
@@ -32,30 +32,42 @@ class JanelaPrincipal extends Janela {
             return renderizarAguardandoJogadores();
         }
 
+        System.out.println("Iniciada: " + partida.retornarIniciada());
+        System.out.println("Preparando: " + partida.retornarEmPreparacao());
+        System.out.println("Aguardando iniciativas: " + partida.retornarAguardandoIniciativas());
+
         mudarTitulo(partida.retornarJogador().retornarNome());
 
         return renderizarMapa();
     }
 
-    JMenuBar renderizarMenu () {
-        if (!partida.retornarEmPreparacao()) {
-            return null;
-        }
-
+    @Override
+    protected JMenuBar renderizarMenu () {
+        int itens = 0;
         JMenu menu = new JMenu("Jogo");
         JMenuItem menuItem;
 
-        menuItem = new JMenuItem("Iniciar partida", KeyEvent.VK_A);
-        menuItem.addActionListener(e -> {
-            controlador.publicarEvento(new InicioSolicitado());
-        });
-        menu.add(menuItem);
+        if (partida.retornarEmPreparacao()) {
+            menuItem = new JMenuItem("Iniciar partida", KeyEvent.VK_A);
+            menuItem.addActionListener(e -> {
+                controlador.publicarEvento(new InicioSolicitado());
+            });
+            menu.add(menuItem);
+            itens++;
+        }
 
-        menuItem = new JMenuItem("Desconectar", KeyEvent.VK_A);
-        menuItem.addActionListener(e -> {
-            controlador.publicarEvento(new DesconexaoSolicitada());
-        });
-        menu.add(menuItem);
+        if (partida.retornarConectado()) {
+            menuItem = new JMenuItem("Desconectar", KeyEvent.VK_A);
+            menuItem.addActionListener(e -> {
+                controlador.publicarEvento(new DesconexaoSolicitada());
+            });
+            menu.add(menuItem);
+            itens++;
+        }
+
+        if (itens == 0) {
+            return null;
+        }
 
         JMenuBar menuBar = new JMenuBar();
         menuBar.add(menu);

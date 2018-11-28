@@ -25,10 +25,8 @@ public class VisualizacaoMapa extends Visualizacao {
     }
 
     public JPanel renderizar() {
-        GridLayout experimentLayout = new GridLayout(mapa.retornarLargura(), mapa.retornarAltura());
-
         JPanel panel = new JPanel();
-        panel.setLayout(experimentLayout);
+        panel.setLayout(new GridLayout(mapa.retornarLargura(), mapa.retornarAltura()));
 
         for (int i = 0; i < mapa.retornarLargura(); i++) {
             for (int j = 0; j < mapa.retornarAltura(); j++) {

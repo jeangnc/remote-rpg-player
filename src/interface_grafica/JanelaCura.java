@@ -7,11 +7,13 @@ class JanelaCura extends Janela {
         super(c);
     }
 
-    JPanel renderizar() {
+    @Override
+    protected JPanel renderizar() {
         return null;
     }
 
-    JMenuBar renderizarMenu () {
+    @Override
+    protected JMenuBar renderizarMenu () {
         return null;
     }
 }

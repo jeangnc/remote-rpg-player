@@ -14,7 +14,8 @@ class JanelaCriacaoPersonagem extends Janela {
         posicao = pos;
     }
 
-    JPanel renderizar() {
+    @Override
+    protected JPanel renderizar() {
         return new FormularioPersonagem() {
             @Override
             public void personagemCriado(String nome, int hpMaximo, boolean inimigo) {
@@ -26,7 +27,8 @@ class JanelaCriacaoPersonagem extends Janela {
         }.renderizar();
     }
 
-    JMenuBar renderizarMenu () {
+    @Override
+    protected JMenuBar renderizarMenu () {
         return null;
     }
 }

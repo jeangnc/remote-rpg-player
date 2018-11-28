@@ -1,8 +1,10 @@
 package modelos;
 
 import modelos.eventos.EventoPartida;
+import modelos.eventos.SolicitarIniciativa;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 public class Partida {
@@ -14,15 +16,15 @@ public class Partida {
 
     private Mapa mapa;
     private Jogador jogador;
+    private Turno turnoAtual;
     private ArrayList<Jogador> jogadores = new ArrayList<>();
     private ArrayList<Personagem> personagens = new ArrayList<>();
     private ArrayList<Turno> turnosPassados = new ArrayList<>();
-    private Turno turnoAtual;
-    private Iniciativa[] iniciativasRecebidas;
+    private ArrayList<Iniciativa> iniciativasRecebidas = new ArrayList<>();
     private ArrayList<Consumer<EventoPartida>> ouvintes = new ArrayList<>();
 
     public Partida() {
-        // TODO improve
+        // TODO melhorar
         mapa = new Mapa(20, 20);
     }
 
@@ -46,6 +48,7 @@ public class Partida {
     }
 
     /**
+     *
      * @param j
      */
     public void adicionarJogador(Jogador j) {
@@ -62,64 +65,85 @@ public class Partida {
     }
 
     /**
+     *
+     * @param idJogador
      * @param nome
      * @param hpMaximo
      * @param inimigo
+     * @param x
+     * @param y
      */
     public void adicionarPersonagem(String idJogador, String nome, int hpMaximo, boolean inimigo, int x, int y) {
         if (!preparando) {
-            // TODO lancar exceção
+            // TODO lançar exceção
         }
 
-        // TODO atribuir jogador ao personagem
-        // TODO adicionar personagem no jogador
-
+        Jogador j = encontrarJogador(idJogador);
         Personagem p = new Personagem(nome, hpMaximo, inimigo);
+        p.definirDono(j);
         p.mover(mapa.retornarPosicao(x, y));
         personagens.add(p);
+        j.adicionarPersonagem(p);
     }
 
     public void iniciar() {
         preparando = false;
-        // TODO - implement Partida.iniciar
-        throw new UnsupportedOperationException();
+        iniciada = true;
+
+        prepararTurno();
     }
 
     /**
-     * @param iniciativas
+     *
+     * @param idPersonagem
+     * @param iniciativa
      */
-    public void registrarIniciativas(Iniciativa[] iniciativas) {
-        // TODO - implement Partida.registrarIniciativas
-        throw new UnsupportedOperationException();
+    public void registrarIniciativas(String idPersonagem, int iniciativa) {
+        Personagem p = encontrarPersonagem(idPersonagem);
+        Iniciativa i = new Iniciativa(p, iniciativa);
+
+        iniciativasRecebidas.add(i);
+
+        // TODO precisa ser igual a quantidade de personagens VIVOS
+        if (iniciativasRecebidas.size() == personagens.size()) {
+            iniciarTurno();
+        }
     }
 
     /**
-     * @param alvo
+     *
+     * @param idPersonagem
      * @param dano
      */
-    public void atacar(Personagem alvo, int dano) {
+    public void atacar(String idPersonagem, int dano) {
         // TODO - implement Partida.atacar
         throw new UnsupportedOperationException();
     }
 
     /**
-     * @param p
+     *
+     * @param idPersonagem
      * @param pontos
      */
-    public void curar(Personagem p, int pontos) {
+    public void curar(String idPersonagem, int pontos) {
         // TODO - implement Partida.curar
         throw new UnsupportedOperationException();
     }
 
     /**
-     * @param p
-     * @param destino
+     *
+     * @param idPersonagem
+     * @param x
+     * @param y
      */
-    public void mover(Personagem p, Posicao destino) {
+    public void mover(String idPersonagem, int x, int y) {
         // TODO - implement Partida.mover
         throw new UnsupportedOperationException();
     }
 
+    /**
+     *
+     */
     public void passarVez() {
         // TODO - implement Partida.passarVez
         throw new UnsupportedOperationException();
@@ -155,6 +179,14 @@ public class Partida {
     }
 
     /**
+     *
+     * @return
+     */
+    public ArrayList<Personagem> retornarMeusPersonagens() {
+        return jogador.retornarPersonagens();
+    }
+
+    /**
      * @return
      */
     public boolean retornarAguardandoIniciativas() {
@@ -184,14 +216,21 @@ public class Partida {
         }
     }
 
-    private void proximoTurno() {
-        // TODO - implement Partida.proximoTurno
-        throw new UnsupportedOperationException();
+    private void prepararTurno() {
+        if (turnoAtual != null) {
+            turnosPassados.add(turnoAtual);
+            turnoAtual = null;
+        }
+
+        aguardandoIniciativas = true;
+        publicarEvento(new SolicitarIniciativa());
     }
 
     private void iniciarTurno() {
-        // TODO - implement Partida.iniciarTurno
-        throw new UnsupportedOperationException();
+        Turno t = new Turno(iniciativasRecebidas);
+
+        aguardandoIniciativas = false;
+        turnoAtual = t;
     }
 
     private void finalizarPartida() {
@@ -199,4 +238,29 @@ public class Partida {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
+    private Jogador encontrarJogador(String id) {
+        Optional<Jogador> opt = jogadores.stream()
+                .filter(o -> o.retornaId().equals(id))
+                .findFirst();
+
+        return opt.orElse(null);
+    }
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    private Personagem encontrarPersonagem(String id) {
+        Optional<Personagem> opt = personagens.stream()
+                .filter(o -> o.retornaId().equals(id))
+                .findFirst();
+
+        return opt.orElse(null);
+    }
 }

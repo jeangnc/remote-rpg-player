@@ -1,18 +1,21 @@
 package modelos;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+
 public class Turno {
 
-    private Iniciativa[] iniciativasExecutadas;
-    private Iniciativa[] iniciativasPendentes;
+    private ArrayList<Iniciativa> iniciativasExecutadas = new ArrayList<>();
+    private ArrayList<Iniciativa> iniciativasPendentes;
     private boolean finalizado;
 
     /**
      *
      * @param iniciativas
      */
-    public Turno(Iniciativa[] iniciativas) {
-        // TODO - implement Turno.Turno
-        throw new UnsupportedOperationException();
+    public Turno(ArrayList<Iniciativa> iniciativas) {
+        iniciativasPendentes = iniciativas;
+        sequenciarPersonagens();
     }
 
     public void proximaJogada() {
@@ -26,8 +29,6 @@ public class Turno {
     }
 
     private void sequenciarPersonagens() {
-        // TODO - implement Turno.sequenciarPersonagens
-        throw new UnsupportedOperationException();
+        iniciativasPendentes.sort(Comparator.comparingInt(Iniciativa::retornarIniciativa));
     }
-
 }

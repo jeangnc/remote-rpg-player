@@ -34,16 +34,12 @@ public class Personagem {
         modificarHp(h);
     }
 
-    public String retornaId() {
-        return id;
-    }
-
-    public String retornaNome() {
-        return nome;
-    }
-
-    public boolean retornaInimigo() {
-        return inimigo;
+    /**
+     *
+     * @param j
+     */
+    void definirDono(Jogador j) {
+        dono = j;
     }
 
     /**
@@ -82,11 +78,26 @@ public class Personagem {
 
     /**
      *
-     * @param dono
+     * @return
      */
-    boolean confirmarDono(Jogador dono) {
-        // TODO - implement Personagem.confirmarDono
-        throw new UnsupportedOperationException();
+    public String retornaId() {
+        return id;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String retornaNome() {
+        return nome;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public boolean retornaInimigo() {
+        return inimigo;
     }
 
     /**

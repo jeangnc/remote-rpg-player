@@ -19,6 +19,8 @@ public class Controlador {
      */
     public Controlador(Partida p) {
         partida = p;
+
+        Janela.definirPrefixoTitulo("Old Dragon");
     }
 
     void publicarEvento(EventoInterface e) {
@@ -41,8 +43,11 @@ public class Controlador {
     }
 
     public void solicitarIniciativas() {
-        // TODO - implement JanelaPrincipal.solicitarIniciativas
-        throw new UnsupportedOperationException();
+        ArrayList<Personagem> personagens = partida.retornarMeusPersonagens();
+
+        personagens.forEach(personagem -> {
+            new JanelaIniciativa(this, personagem).abrir();
+        });
     }
 
     public void finalizarJogada() {

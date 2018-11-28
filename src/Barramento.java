@@ -1,10 +1,7 @@
 import br.ufsc.inf.leobr.cliente.exception.*;
 import comunicacao.Rede;
 import interface_grafica.Controlador;
-import interface_grafica.eventos.ConexaoSolicitada;
-import interface_grafica.eventos.EventoInterface;
-import interface_grafica.eventos.InicioSolicitado;
-import interface_grafica.eventos.PersonagemAdicionado;
+import interface_grafica.eventos.*;
 import modelos.Jogador;
 import modelos.Partida;
 import modelos.eventos.EventoPartida;
@@ -76,7 +73,7 @@ class Barramento {
     private void abrirConexao(ConexaoSolicitada evento) {
         try {
             String idJogador = UUID.randomUUID().toString();
-            String nomeJogador = evento.retornaNome();
+            String nomeJogador = evento.retornarNome();
 
             rede.conectar("localhost", idJogador, nomeJogador);
             partida.conectadoComo(idJogador, nomeJogador);
@@ -99,6 +96,11 @@ class Barramento {
             PersonagemAdicionado e = (PersonagemAdicionado) eventoInterface;
             partida.adicionarPersonagem(idJogador, e.retornaNome(), e.retornaHpMaximo(), e.retornaInimigo(), e.retornarCoordenadaX(), e.retornarCoordenadaY());
             controlador.recarregar();
+        }
+
+        else if (eventoInterface instanceof IniciativaInformada) {
+            IniciativaInformada e = (IniciativaInformada) eventoInterface;
+            partida.registrarIniciativas(e.retornarIdPersonagem(), e.retornarIniciativa());
         }
 
         else if (eventoInterface instanceof InicioSolicitado) {

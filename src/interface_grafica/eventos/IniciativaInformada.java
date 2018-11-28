@@ -1,16 +1,26 @@
 package interface_grafica.eventos;
 
-import modelos.Iniciativa;
 
 public class IniciativaInformada extends EventoInterface {
 
+    private String idPersonagem;
+    private int iniciativa;
+
     /**
      *
-     * @param iniciativas
+     * @param i
+     * @param iv
      */
-    public IniciativaInformada(Iniciativa[] iniciativas) {
-        // TODO - implement IniciativaInformada.IniciativaInformada
-        throw new UnsupportedOperationException();
+    public IniciativaInformada(String i, int iv) {
+        idPersonagem = i;
+        iniciativa = iv;
     }
 
+    public String retornarIdPersonagem() {
+        return idPersonagem;
+    }
+
+    public int retornarIniciativa() {
+        return iniciativa;
+    }
 }
