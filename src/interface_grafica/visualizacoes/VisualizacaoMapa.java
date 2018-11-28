@@ -11,7 +11,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class VisualizacaoMapa extends Visualizacao {
-
     private Mapa mapa;
     private boolean partidaIniciada;
 
@@ -24,8 +23,10 @@ public class VisualizacaoMapa extends Visualizacao {
         partidaIniciada = i;
     }
 
+    @Override
     public JPanel renderizar() {
         JPanel panel = new JPanel();
+
         panel.setLayout(new GridLayout(mapa.retornarLargura(), mapa.retornarAltura()));
 
         for (int i = 0; i < mapa.retornarLargura(); i++) {
@@ -42,7 +43,7 @@ public class VisualizacaoMapa extends Visualizacao {
                     label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 }
 
-                label.addMouseListener(new MouseAdapter () {
+                label.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mousePressed(MouseEvent e){
                         if (e.isPopupTrigger()) {

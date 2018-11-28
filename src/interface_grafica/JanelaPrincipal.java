@@ -4,9 +4,11 @@ import interface_grafica.eventos.ConexaoSolicitada;
 import interface_grafica.eventos.DesconexaoSolicitada;
 import interface_grafica.eventos.InicioSolicitado;
 import interface_grafica.eventos.PersonagemMovido;
+import interface_grafica.visualizacoes.VisualizacaoMapa;
+import interface_grafica.visualizacoes.VisualizacaoPartida;
+import interface_grafica.visualizacoes.VisualizacaoStatus;
 import interface_grafica.visualizacoes.formularios.FormularioConexao;
 import interface_grafica.visualizacoes.AguardandoJogadores;
-import interface_grafica.visualizacoes.VisualizacaoMapa;
 import modelos.Partida;
 import modelos.Personagem;
 import modelos.Posicao;
@@ -32,13 +34,9 @@ class JanelaPrincipal extends Janela {
             return renderizarAguardandoJogadores();
         }
 
-        System.out.println("Iniciada: " + partida.retornarIniciada());
-        System.out.println("Preparando: " + partida.retornarEmPreparacao());
-        System.out.println("Aguardando iniciativas: " + partida.retornarAguardandoIniciativas());
-
         mudarTitulo(partida.retornarJogador().retornarNome());
 
-        return renderizarMapa();
+        return renderizarPartida();
     }
 
     @Override
@@ -75,9 +73,15 @@ class JanelaPrincipal extends Janela {
         return menuBar;
     }
 
-    private JPanel renderizarMapa() {
-        redimensionar(800, 600);
+    private JPanel renderizarPartida() {
+        return new VisualizacaoPartida(renderizarBarraStatus(), renderizarMapa()).renderizar();
+    }
 
+    private JPanel renderizarBarraStatus() {
+        return new VisualizacaoStatus(partida).renderizar();
+    }
+
+    private JPanel renderizarMapa() {
         return new VisualizacaoMapa(partida.retornarMapa(), partida.retornarIniciada()) {
             public void adicionarPersonagem(Posicao pos) {
                 controlador.criarPersonagem(pos);
@@ -85,12 +89,12 @@ class JanelaPrincipal extends Janela {
 
             @Override
             public void atacarPersonagem(Personagem p) {
-                 controlador.atacar(p);
+                controlador.atacar(p);
             }
 
             @Override
             public void curarPersonagem(Personagem p) {
-                 controlador.curar(p);
+                controlador.curar(p);
             }
 
             @Override

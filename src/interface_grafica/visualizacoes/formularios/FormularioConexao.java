@@ -20,6 +20,7 @@ public class FormularioConexao extends Visualizacao {
         });
     }
 
+    @Override
     public JPanel renderizar() {
         return panel;
     }

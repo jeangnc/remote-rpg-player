@@ -22,6 +22,7 @@ public class FormularioPersonagem extends Visualizacao {
         });
     }
 
+    @Override
     public JPanel renderizar() {
         return panel;
     }

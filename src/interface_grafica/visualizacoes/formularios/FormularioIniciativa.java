@@ -20,6 +20,7 @@ public class FormularioIniciativa extends Visualizacao {
         });
     }
 
+    @Override
     public JPanel renderizar() {
         return panel;
     }
